@@ -131,8 +131,6 @@ void	DMem::eject(Code	*command){
 
 		NODE->send(module,look_at,N::PRIMARY);
 	}
-
-	//	Add more command procesing here.
 }
 
 void	DMem::inject(Code	*object,uint8	nodeID){
@@ -146,7 +144,7 @@ void	DMem::inject(Code	*object,uint8	nodeID){
 	uint16	extent_index=arity+1;
 
 	view->code(VIEW_OPCODE)=Atom::SSet(r_exec::View::ViewOpcode,arity);
-	view->code(VIEW_SYNC)=Atom::Boolean(false);				//	sync on state.
+	view->code(VIEW_SYNC)=Atom::Boolean(true);				//	sync on front.
 	view->code(VIEW_IJT)=Atom::IPointer(extent_index);		//	iptr to injection time.
 	view->code(VIEW_SLN)=Atom::Float(1.0);					//	sln.
 	view->code(VIEW_RES)=Atom::Float(1.0);					//	res is set to 1 upr of the destination group.
