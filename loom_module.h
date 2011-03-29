@@ -42,28 +42,9 @@
 MODULE_CLASS_BEGIN(Loom,Module<Loom>)
 public:
 	SharedLibrary	*lib;
-	//	rMem -> devices.
-	/*
-	void	(*set_ontology_count)(_Payload	*);
-	void	(*set_ontology_member)(_Payload	*);
-	void	(*speak)(_Payload	*);
-	void	(*move_hand)(_Payload	*);
-	void	(*grab_hand)(_Payload	*);
-	void	(*release_hand)(_Payload	*);
-	void	(*point_at)(_Payload	*);
-	void	(*look_at)(_Payload	*);
-	*/
+	
 	typedef	void	(*OutputToDevices)(_Payload	*p);
 	OutputToDevices	output_to_devices;
-
-	//	devices -> rMem.
-	/*
-	void	(*actor_speaks)(_Payload	*p);
-	void	(*actor_points_at)(_Payload	*p);
-	void	(*entity_position)(_Payload	*p);
-	void	(*entity_color)(_Payload	*p);
-	void	(*entity_essence)(_Payload	*p);
-	*/
 
 	std::string	device_hub_path;
 
@@ -98,7 +79,17 @@ public:
 		NODE->send(this,new	StopMem(),N::PRIMARY);
 	}
 
-	//	rMem -> devices -> Loom.
+	//	Loom -> rMem -> devices.
+	/*
+	void	(*set_ontology_count)(_Payload	*);
+	void	(*set_ontology_member)(_Payload	*);
+	void	(*speak)(_Payload	*);
+	void	(*move_hand)(_Payload	*);
+	void	(*grab_hand)(_Payload	*);
+	void	(*release_hand)(_Payload	*);
+	void	(*point_at)(_Payload	*);
+	void	(*look_at)(_Payload	*);
+	*/
 	void	react(OntologyCount	*p){
 		//OUTPUT<<"got ontology count: "<<p->count<<std::endl;
 		if(output_to_devices)

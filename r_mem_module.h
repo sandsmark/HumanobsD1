@@ -119,6 +119,16 @@ public:
 		
 		delete	image;
 	}
+
+	//	devices -> rMem.
+	/*
+	void	(*actor_speaks)(_Payload	*p);
+	void	(*actor_points_at)(_Payload	*p);
+	void	(*entity_position)(_Payload	*p);
+	void	(*entity_color)(_Payload	*p);
+	void	(*entity_essence)(_Payload	*p);
+	*/
+
 	void	react(Sample_uint32	*sample){		
 		mem->inject(sample->get_code(mem),sample->senderNodeID());
 	}
