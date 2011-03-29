@@ -84,10 +84,13 @@ void	RMem::finalize(){
 
 void	RMem::send_ontology_map(){
 
+	uint16	ont_opcode=r_exec::GetOpcode("ont");
 	UNORDERED_MAP<r_code::Code	*,std::string>	entities;
 	for(uint16	i=0;i<ram_objects.size();++i){
 
-		if(ram_objects[i]->code(0).asOpcode()==r_exec::Opcodes::Ent){
+		uint16	opcode=ram_objects[i]->code(0).asOpcode();
+		if(	opcode==r_exec::Opcodes::Ent	||
+			opcode==ont_opcode){
 
 			entities[ram_objects[i]]=r_exec::GetAxiomName(i);
 			mem->add_entity_map_entry(ram_objects[i]);

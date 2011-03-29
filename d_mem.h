@@ -50,7 +50,7 @@ public:
 	DMem(mBrane::sdk::module::_Module	*m);
 
 	void	eject(View	*view,uint16	nodeID);	//	RMem to RMem.
-	void	eject(Code	*command,uint16	nodeID);	//	RMem to I/O device.
+	void	eject(Code	*command);	//	RMem to I/O device.
 	void	inject(Code	*object,uint8	nodeID);
 
 	void	add_entity_map_entry(Code	*entity);	//	called for each axiomatic entity.

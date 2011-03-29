@@ -42,14 +42,34 @@ DMem::DMem(mBrane::sdk::module::_Module	*m):r_exec::Mem<r_exec::LObject>(),modul
 void	DMem::eject(View	*view,uint16	nodeID){
 }
 
-void	DMem::eject(Code	*command,uint16	nodeID){
+void	DMem::eject(Code	*command){
 	
-	if(command->code(0).asOpcode()==r_exec::GetOpcode("speak")){
+	uint16	function=(command->code(CMD_FUNCTION).atom>>8)	&	0x000000FF;
+	if(function==r_exec::GetOpcode("speak")){
 
 		Speak	*speak=new	Speak();
-		std::string	w=r_code::Utils::GetString<Code>(command,1);
+		uint16	args_set_index=command->code(CMD_ARGS),asIndex();
+		uint16	word_index=args_set_index+1;
+		uint16	deadline_index=args_set_index+2;
+		std::string	w=r_code::Utils::GetString<Code>(command,word_index);
 		memcpy(speak->word,w.c_str(),w.length());
+		speak->deadline=Utils::GetTimestamp<Code>(command,deadline_index);
 		NODE->send(module,speak,N::PRIMARY);
+	}else	if(function==r_exec::GetOpcode("move_hand")){
+
+
+	}else	if(function==r_exec::GetOpcode("grab_hand")){
+
+
+	}else	if(function==r_exec::GetOpcode("release_hand")){
+
+
+	}else	if(function==r_exec::GetOpcode("point_at")){
+
+
+	}else	if(function==r_exec::GetOpcode("look_at")){
+
+
 	}
 
 	//	Add more command procesing here.

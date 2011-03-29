@@ -112,7 +112,7 @@ public:
 		image=mem->get_image();
 		mem->resume();
 
-		std::cout<<"\nShutting rMem down...\n";
+		OUTPUT<<"\nShutting rMem down...\n";
 		mem->stop();
 
 		decompile(decompiler,image,starting_time);

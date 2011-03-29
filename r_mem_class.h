@@ -126,11 +126,48 @@ public:
 //	The rMem sends commands to I/O devices in the form (command arg0 ... argn).
 //	This translates into one class per command.
 
-//	Example: a speech command.
+template<class	U>	class	Command:
+public	Message<U,Memory>{
+public:
+	uint64	deadline;	//	o means asap.
+};
+
 class	Speak:
-public	Message<Speak,Memory>{
+public	Command<Speak>{
 public:
 	String255	word;
+};
+
+class	MoveTo:
+public	Command<MoveTo>{
+public:
+	uint32	OID;	//	of one hand.
+	Vec3	target_position;
+};
+
+class	PointAt:
+public	Command<PointAt>{
+public:
+	uint32	OID;	//	of one hand.
+	Vec3	target_position;
+};
+
+class	Grab:
+public	Command<Grab>{
+public:
+	uint32	OID;	//	of one hand.
+};
+
+class	Release:
+public	Command<Release>{
+public:
+	uint32	OID;	//	of one hand.
+};
+
+class	LookAt:
+public	Command<LookAt>{
+public:
+	Vec3	target_position;
 };
 
 

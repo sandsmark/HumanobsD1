@@ -39,101 +39,107 @@
 #define	NODE	module::Node::Get()
 #define	OUTPUT	NODE->trace(N::APPLICATION)
 
-typedef	char* (*LoomOutput)(uint32);
-typedef	bool (*LoomInput)(char*);
-
 MODULE_CLASS_BEGIN(Loom,Module<Loom>)
 public:
-	Thread* thread;
-	SharedLibrary* lib;
-	LoomOutput waitForEvent;
-	LoomInput processEvent;
+	SharedLibrary	*lib;
 
-	std::string	mBrane_weaver_module_path;
+	//	rMem -> devices.
+	/*
+	void	(*set_ontology_count)(Payload	*);
+	void	(*set_ontology_member)(Payload	*);
+	void	(*speak)(Payload	*);
+	void	(*move_hand)(Payload	*);
+	void	(*grab_hand)(Payload	*);
+	void	(*release_hand)(Payload	*);
+	void	(*point_at)(Payload	*);
+	void	(*look_at)(Payload	*);
+	*/
+	typedef	void	(*OutputToDevices)(_Payload	*p);
+	OutputToDevices	output_to_devices;
+
+	//	devices -> rMem.
+	/*
+	void	(*actor_speaks)(Payload	*p);
+	void	(*actor_points_at)(Payload	*p);
+	void	(*entity_position)(Payload	*p);
+	void	(*entity_color)(Payload	*p);
+	void	(*entity_essence)(Payload	*p);
+	*/
+
+	std::string	device_hub_path;
 
 	uint32	ontology_count;
 
 	void	loadParameters(const	std::vector<word32>	&numbers,const	std::vector<std::string>	&strings){
-		mBrane_weaver_module_path=strings[0];
+		device_hub_path=strings[0];
 	}
 
 	void	start(){
-		lib = SharedLibrary::New(mBrane_weaver_module_path.c_str());
-		if (lib) {
-			waitForEvent = lib->getFunction<LoomOutput>("WaitForEvent");
-			processEvent = lib->getFunction<LoomInput>("ProcessEvent");
-		}
-		else {
-			waitForEvent = NULL;
-			processEvent = NULL;
-		}
-		thread = NULL;
+		lib = SharedLibrary::New(device_hub_path.c_str());
+		if(lib)
+			output_to_devices=lib->getFunction<OutputToDevices>("output_to_devices");
 	}
 	void	stop(){
-		delete(thread);
-		thread = NULL;
-		delete(lib);
-		lib = NULL;
-		waitForEvent = NULL;
-		processEvent = NULL;
+		delete	lib;
 	}
 	template<class	T>	Decision	decide(T	*p){return	WAIT;}
 	template<class	T>	void	react(T	*p){}
 
 	void	react(SystemReady	*p){
 		OUTPUT<<"Loom "<<"got SysReady"<<std::endl;
-		thread = Thread::New<Thread>(run, this);
-
 		ontology_count=0;
+
+		if(lib)
+			output_to_devices(p);
+
 		NODE->send(this,new	StartMem(),N::PRIMARY);
 
-		char* data = NULL;
-
-		// Output data to Loom
-		if (processEvent)
-			processEvent(data);
+		//	for testing.
+		Sleep(1000);
+		NODE->send(this,new	StopMem(),N::PRIMARY);
 	}
 
 	void	react(OntologyCount	*p){
-		OUTPUT<<"got ontology count: "<<p->count<<std::endl;
-		ontology_count=p->count;
+		//OUTPUT<<"got ontology count: "<<p->count<<std::endl;
+		if(lib)
+			output_to_devices(p);
 	}
 	void	react(OntologyDef	*p){
 		//OUTPUT<<"got ontology member: "<<p->name<<std::endl;
-		//std::string	name=p->name;
-		//register_ontology_member(name,p->OID);
-
-		if(--ontology_count==0){
-			uint8	u=0;
-		}
-			
+		if(lib)
+			output_to_devices(p);
 	}
 	void	react(Speak	*p){
 		OUTPUT<<"RMem says: "<<p->word<<std::endl;
+
+		if(lib)
+			output_to_devices(p);
 	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	static thread_ret thread_function_call run(void	*args) {
-
-		Loom* _this = (Loom*) args;
-		if (!_this)
-			thread_ret_val(0);
-
-		uint32 type = 0;
-		char* data = NULL;
-		uint32 dataSize = 0;
-
-		while (_this->waitForEvent) {
-			// wait for new input from lib function
-			if ( (data = _this->waitForEvent(100)) ) {
-				// if there, post output
-			}
-		}
-
-		thread_ret_val(0);
+	void	react(MoveTo	*p){
+		
+		if(lib)
+			output_to_devices(p);
 	}
-
+	void	react(PointAt	*p){
+		
+		if(lib)
+			output_to_devices(p);
+	}
+	void	react(Grab	*p){
+		
+		if(lib)
+			output_to_devices(p);
+	}
+	void	react(Release	*p){
+		
+		if(lib)
+			output_to_devices(p);
+	}
+	void	react(LookAt	*p){
+		
+		if(lib)
+			output_to_devices(p);
+	}
 MODULE_CLASS_END(Loom)
 
 
