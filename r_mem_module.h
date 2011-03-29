@@ -87,7 +87,7 @@ public:
 		int32	err=initialize();
 		OUTPUT<<"RMem "<<"got started"<<std::endl;
 		if(err)
-			std::cerr<<"Error in rMem::initialize()\n";
+			OUTPUT<<"Error in rMem::initialize()\n";
 	}
 	void	stop(){
 		finalize();
@@ -125,7 +125,7 @@ public:
 	void	react(Sample_Vec3	*sample){
 		mem->inject(sample->get_code(mem),sample->senderNodeID());
 	}
-	void	react(Sample_float32	*sample){
+	void	react(Sample_String255	*sample){
 		mem->inject(sample->get_code(mem),sample->senderNodeID());
 	}
 MODULE_CLASS_END(RMem)

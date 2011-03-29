@@ -42,54 +42,53 @@
 MODULE_CLASS_BEGIN(Loom,Module<Loom>)
 public:
 	SharedLibrary	*lib;
-
 	//	rMem -> devices.
 	/*
-	void	(*set_ontology_count)(Payload	*);
-	void	(*set_ontology_member)(Payload	*);
-	void	(*speak)(Payload	*);
-	void	(*move_hand)(Payload	*);
-	void	(*grab_hand)(Payload	*);
-	void	(*release_hand)(Payload	*);
-	void	(*point_at)(Payload	*);
-	void	(*look_at)(Payload	*);
+	void	(*set_ontology_count)(_Payload	*);
+	void	(*set_ontology_member)(_Payload	*);
+	void	(*speak)(_Payload	*);
+	void	(*move_hand)(_Payload	*);
+	void	(*grab_hand)(_Payload	*);
+	void	(*release_hand)(_Payload	*);
+	void	(*point_at)(_Payload	*);
+	void	(*look_at)(_Payload	*);
 	*/
 	typedef	void	(*OutputToDevices)(_Payload	*p);
 	OutputToDevices	output_to_devices;
 
 	//	devices -> rMem.
 	/*
-	void	(*actor_speaks)(Payload	*p);
-	void	(*actor_points_at)(Payload	*p);
-	void	(*entity_position)(Payload	*p);
-	void	(*entity_color)(Payload	*p);
-	void	(*entity_essence)(Payload	*p);
+	void	(*actor_speaks)(_Payload	*p);
+	void	(*actor_points_at)(_Payload	*p);
+	void	(*entity_position)(_Payload	*p);
+	void	(*entity_color)(_Payload	*p);
+	void	(*entity_essence)(_Payload	*p);
 	*/
 
 	std::string	device_hub_path;
-
-	uint32	ontology_count;
 
 	void	loadParameters(const	std::vector<word32>	&numbers,const	std::vector<std::string>	&strings){
 		device_hub_path=strings[0];
 	}
 
 	void	start(){
-		lib = SharedLibrary::New(device_hub_path.c_str());
+		output_to_devices=NULL;
+		lib=SharedLibrary::New(device_hub_path.c_str());
 		if(lib)
 			output_to_devices=lib->getFunction<OutputToDevices>("output_to_devices");
 	}
 	void	stop(){
-		delete	lib;
+		NODE->send(this,new	StopMem(),N::PRIMARY);
+		if(lib)
+			delete	lib;
 	}
 	template<class	T>	Decision	decide(T	*p){return	WAIT;}
 	template<class	T>	void	react(T	*p){}
 
 	void	react(SystemReady	*p){
 		OUTPUT<<"Loom "<<"got SysReady"<<std::endl;
-		ontology_count=0;
 
-		if(lib)
+		if(output_to_devices)
 			output_to_devices(p);
 
 		NODE->send(this,new	StartMem(),N::PRIMARY);
@@ -99,45 +98,46 @@ public:
 		NODE->send(this,new	StopMem(),N::PRIMARY);
 	}
 
+	//	rMem -> devices -> Loom.
 	void	react(OntologyCount	*p){
 		//OUTPUT<<"got ontology count: "<<p->count<<std::endl;
-		if(lib)
+		if(output_to_devices)
 			output_to_devices(p);
 	}
 	void	react(OntologyDef	*p){
 		//OUTPUT<<"got ontology member: "<<p->name<<std::endl;
-		if(lib)
+		if(output_to_devices)
 			output_to_devices(p);
 	}
 	void	react(Speak	*p){
 		OUTPUT<<"RMem says: "<<p->word<<std::endl;
 
-		if(lib)
+		if(output_to_devices)
 			output_to_devices(p);
 	}
 	void	react(MoveTo	*p){
 		
-		if(lib)
+		if(output_to_devices)
 			output_to_devices(p);
 	}
 	void	react(PointAt	*p){
 		
-		if(lib)
+		if(output_to_devices)
 			output_to_devices(p);
 	}
 	void	react(Grab	*p){
 		
-		if(lib)
+		if(output_to_devices)
 			output_to_devices(p);
 	}
 	void	react(Release	*p){
 		
-		if(lib)
+		if(output_to_devices)
 			output_to_devices(p);
 	}
 	void	react(LookAt	*p){
 		
-		if(lib)
+		if(output_to_devices)
 			output_to_devices(p);
 	}
 MODULE_CLASS_END(Loom)

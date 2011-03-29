@@ -63,7 +63,7 @@ Code	*Sample_String255::get_code(DMem *m){
 	object->code(3)=Atom::IPointer(5);	//	points to the string.
 	object->code(4)=Atom::Float(1);		//	psln_thr.
 	std::string	text=this->value;
-	r_code::Utils::SetString<Code>(object,3,text);
+	r_code::Utils::SetString<Code>(object,5,text);
 	
 	object->set_reference(0,m->get_object(this->object,this->senderNodeID()));
 	object->set_reference(1,m->get_object(this->attribute,this->senderNodeID()));
