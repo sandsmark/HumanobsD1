@@ -29,6 +29,7 @@
       <Subscription message_class="Sample_Vec3"/>
       <Subscription message_class="Sample_float32"/>
       <Subscription message_class="Sample_uint32"/>
+      <Subscription message_class="Sample_String255"/>
 		</Projection>
 	</Module>
   <Module class="Loom" name="loom" host="local">
@@ -41,6 +42,11 @@
       <Subscription message_class="OntologyCount"/>
       <Subscription message_class="OntologyDef"/>
       <Subscription message_class="Speak"/>
+      <Subscription message_class="MoveTo"/>
+      <Subscription message_class="PointAt"/>
+      <Subscription message_class="Grab"/>
+      <Subscription message_class="Release"/>
+      <Subscription message_class="LookAt"/>
     </Projection>
   </Module>
 	<!--GENERAL REMARKS-->

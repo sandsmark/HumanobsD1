@@ -80,8 +80,10 @@ public:
 		goal_resilience=numbers[5];
 		asmp_resilience=numbers[6];
 		sim_resilience=numbers[7];
-		float_tolerance=0.1;//numbers[8];
-		time_tolerance=0.1;//numbers[9];
+		uint32	f=numbers[8];
+		float_tolerance=*reinterpret_cast<float32	*>(&f);
+		f=numbers[9];
+		time_tolerance=*reinterpret_cast<float32	*>(&f);
 	}
 	void	start(){
 		int32	err=initialize();

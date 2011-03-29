@@ -78,14 +78,10 @@ public:
 		Sleep(1000);
 		NODE->send(this,new	StopMem(),N::PRIMARY);
 	}
-	void	react(MemReady	*p){
-		
-		if(output_to_devices)
-			output_to_devices(p);
-	}
 
-	//	Loom -> rMem -> devices.
+	//	rMem -> devices -> Loom.
 	/*
+	void	(*mem_ready)(_Payload	*);
 	void	(*set_ontology_count)(_Payload	*);
 	void	(*set_ontology_member)(_Payload	*);
 	void	(*speak)(_Payload	*);
@@ -95,6 +91,11 @@ public:
 	void	(*point_at)(_Payload	*);
 	void	(*look_at)(_Payload	*);
 	*/
+	void	react(MemReady	*p){
+		
+		if(output_to_devices)
+			output_to_devices(p);
+	}
 	void	react(OntologyCount	*p){
 		//OUTPUT<<"got ontology count: "<<p->count<<std::endl;
 		if(output_to_devices)
