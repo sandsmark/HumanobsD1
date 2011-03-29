@@ -95,11 +95,13 @@ void	RMem::send_ontology_map(){
 	}
 
 	NODE->send(this,new	OntologyCount(entities.size()),N::PRIMARY);
+	//OUTPUT<<"RMem sent ontology member count "<<entities.size()<<std::endl;
 
 	UNORDERED_MAP<r_code::Code	*,std::string>::const_iterator	e;
 	for(e=entities.begin();e!=entities.end();++e){
 
 		std::string	name=e->second;
 		NODE->send(this,new	OntologyDef(name,e->first->getOID()),N::PRIMARY);
+		//OUTPUT<<"RMem sent 1 ontology member: "<<name<<std::endl;
 	}
 }

@@ -31,14 +31,16 @@
       <Subscription message_class="Sample_uint32"/>
 		</Projection>
 	</Module>
-  <Module class="SampleIO" name="sample_io" host="local">
+  <Module class="Loom" name="loom" host="local">
+    <Parameters>
+      <Parameter value="C:\Work\Loom\Weaver\bin\modules\mBrane_d.dll" type="string"/>
+    </Parameters>
     <Projection space="space1" activation_level="1">
       <Subscription message_class="SystemReady"/>
       <Subscription message_class="MemReady"/>
       <Subscription message_class="OntologyCount"/>
       <Subscription message_class="OntologyDef"/>
       <Subscription message_class="Speak"/>
-      <Subscription stream="0"/>
     </Projection>
   </Module>
 	<!--GENERAL REMARKS-->
