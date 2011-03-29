@@ -78,6 +78,11 @@ public:
 		Sleep(1000);
 		NODE->send(this,new	StopMem(),N::PRIMARY);
 	}
+	void	react(MemReady	*p){
+		
+		if(output_to_devices)
+			output_to_devices(p);
+	}
 
 	//	Loom -> rMem -> devices.
 	/*
