@@ -139,7 +139,7 @@ void	DMem::inject(Code	*object,uint8	nodeID){
 
 	uint32	now=r_exec::Now();
 
-	//	Build a default view.
+	//	Build a default view for the incoming object.
 	r_exec::View	*view=build_view(now,nodeID);
 
 	//	Inject the view.
@@ -147,7 +147,7 @@ void	DMem::inject(Code	*object,uint8	nodeID){
 	view->set_object(_object);
 	((_Mem	*)this)->inject(view);
 
-	//	inject a fact.
+	//	Inject a fact.
 	Code	*fact=r_exec::factory::Object::Fact(object,now,1,1);
 
 	//	Build a default view for the fact.
