@@ -7,6 +7,23 @@
   
 	<Space name="space1" activation_threshold="0.5"/><!--name is mandatory-->
 	<!--second, module instantiations-->
+  <Module class="Loom" name="loom" host="local">
+    <Parameters>
+      <Parameter value="C:\Work\Loom\Weaver\bin\modules\mBrane_d.dll" type="string"/>
+    </Parameters>
+    <Projection space="space1" activation_level="1">
+      <Subscription message_class="SystemReady"/>
+      <Subscription message_class="MemReady"/>
+      <Subscription message_class="OntologyCount"/>
+      <Subscription message_class="OntologyDef"/>
+      <Subscription message_class="Speak"/>
+      <Subscription message_class="MoveTo"/>
+      <Subscription message_class="PointAt"/>
+      <Subscription message_class="Grab"/>
+      <Subscription message_class="Release"/>
+      <Subscription message_class="LookAt"/>
+    </Projection>
+  </Module>
 	<Module class="RMem" name="r_mem" host="local"><!--name optional-->
     <Parameters>
       <Parameter value="c:/work/HumanobsD1/main.replicode" type="string"/>
@@ -31,23 +48,6 @@
       <Subscription message_class="Sample_uint32"/>
       <Subscription message_class="Sample_String255"/>
 		</Projection>
-	</Module>
-  <Module class="Loom" name="loom" host="local">
-    <Parameters>
-      <Parameter value="C:\Work\Loom\Weaver\bin\modules\mBrane_d.dll" type="string"/>
-    </Parameters>
-    <Projection space="space1" activation_level="1">
-      <Subscription message_class="SystemReady"/>
-      <Subscription message_class="MemReady"/>
-      <Subscription message_class="OntologyCount"/>
-      <Subscription message_class="OntologyDef"/>
-      <Subscription message_class="Speak"/>
-      <Subscription message_class="MoveTo"/>
-      <Subscription message_class="PointAt"/>
-      <Subscription message_class="Grab"/>
-      <Subscription message_class="Release"/>
-      <Subscription message_class="LookAt"/>
-    </Projection>
   </Module>
 	<!--GENERAL REMARKS-->
 	<!--0	all nodes have the exact same application config file-->
