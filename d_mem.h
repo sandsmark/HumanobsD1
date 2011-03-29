@@ -46,6 +46,8 @@ private:
 	mBrane::sdk::module::_Module	*module;
 
 	UNORDERED_MAP<uint32,P<Code> >	entity_map;	//	left side: OID from device I/O; right side: the corresponding replicode object.
+
+	r_exec::View	*build_view(uint64	time,uint8	nodeID)	const;
 public:
 	DMem(mBrane::sdk::module::_Module	*m);
 

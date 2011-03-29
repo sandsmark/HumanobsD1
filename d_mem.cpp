@@ -137,27 +137,24 @@ void	DMem::inject(Code	*object,uint8	nodeID){
 
 	//object->trace();
 
+	uint32	now=r_exec::Now();
+
 	//	Build a default view.
-	r_exec::View	*view=new	r_exec::View();
-	const	uint32	arity=VIEW_ARITY;	//	reminder: opcode not included in the arity.
-	uint16	write_index=0;
-	uint16	extent_index=arity+1;
-
-	view->code(VIEW_OPCODE)=Atom::SSet(r_exec::View::ViewOpcode,arity);
-	view->code(VIEW_SYNC)=Atom::Boolean(true);				//	sync on front.
-	view->code(VIEW_IJT)=Atom::IPointer(extent_index);		//	iptr to injection time.
-	view->code(VIEW_SLN)=Atom::Float(1.0);					//	sln.
-	view->code(VIEW_RES)=Atom::Float(1.0);					//	res is set to 1 upr of the destination group.
-	view->code(VIEW_HOST)=Atom::RPointer(0);				//	stdin/stdout is the only reference.
-	view->code(VIEW_ORG)=Atom::Node(nodeID);				//	org.
-
-	Utils::SetTimestamp(&view->code(extent_index),r_exec::Now());
-
-	view->references[0]=get_stdin();
+	r_exec::View	*view=build_view(now,nodeID);
 
 	//	Inject the view.
 	Code	*_object=check_existence(object);
 	view->set_object(_object);
+	((_Mem	*)this)->inject(view);
+
+	//	inject a fact.
+	Code	*fact=r_exec::factory::Object::Fact(object,now,1,1);
+
+	//	Build a default view for the fact.
+	*view=build_view(now,nodeID);
+
+	//	Inject the view.
+	view->set_object(fact);
 	((_Mem	*)this)->inject(view);
 }
 
@@ -177,4 +174,26 @@ Code	*DMem::get_object(uint32	OID,uint8	NID){
 void	DMem::add_entity_map_entry(Code	*entity){
 
 	entity_map[entity->getOID()]=entity;
+}
+
+r_exec::View	*DMem::build_view(uint64	time,uint8	nodeID)	const{
+
+	r_exec::View	*view=new	r_exec::View();
+	const	uint32	arity=VIEW_ARITY;	//	reminder: opcode not included in the arity.
+	uint16	write_index=0;
+	uint16	extent_index=arity+1;
+
+	view->code(VIEW_OPCODE)=Atom::SSet(r_exec::View::ViewOpcode,arity);
+	view->code(VIEW_SYNC)=Atom::Boolean(true);				//	sync on front.
+	view->code(VIEW_IJT)=Atom::IPointer(extent_index);		//	iptr to injection time.
+	view->code(VIEW_SLN)=Atom::Float(1.0);					//	sln.
+	view->code(VIEW_RES)=Atom::Float(1.0);					//	res is set to 1 upr of the destination group.
+	view->code(VIEW_HOST)=Atom::RPointer(0);				//	stdin/stdout is the only reference.
+	view->code(VIEW_ORG)=Atom::Node(nodeID);				//	org.
+
+	Utils::SetTimestamp(&view->code(extent_index),time);
+
+	view->references[0]=get_stdin();
+
+	return	view;
 }
