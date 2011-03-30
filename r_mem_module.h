@@ -103,8 +103,12 @@ public:
 	}
 	void	react(SystemReady	*p){
 		OUTPUT<<"RMem "<<"got SysReady"<<std::endl;
+
+		//NODE->subscribeMessage(this,Module<RMem>::CID(),0,1,CLASS_ID(StartMem));
 	}
 	void	react(StartMem	*p){
+		OUTPUT<<"RMem "<<"got StartMem"<<std::endl;
+		OUTPUT<<"RMem "<<"sending ontology map"<<std::endl;
 		send_ontology_map();
 		starting_time=mem->start();
 		NODE->send(this,new	MemReady(),N::PRIMARY);

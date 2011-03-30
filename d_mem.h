@@ -45,7 +45,8 @@ public	r_exec::Mem<r_exec::LObject>{
 private:
 	mBrane::sdk::module::_Module	*module;
 
-	UNORDERED_MAP<uint32,P<Code> >	entity_map;	//	left side: OID from device I/O; right side: the corresponding replicode object.
+	UNORDERED_MAP<uint32,P<Code> >	entity_map;	//	first n objects: left side: OID assigned by rMem, right side: object (ent and ont). n=number of ent and ont objects.
+												//	from n+1 on: left side: OID assigned by I/O devices (new entites in the environment), right side: the corresponding replicode object.
 
 	r_exec::View	*build_view(uint64	time,uint8	nodeID)	const;
 public:

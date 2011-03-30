@@ -164,7 +164,7 @@ Code	*DMem::get_object(uint32	OID,uint8	NID){
 	if(o!=entity_map.end())
 		return	o->second;
 
-	r_exec::LObject	*new_entity=new	r_exec::LObject();
+	r_exec::LObject	*new_entity=new	r_exec::LObject();	//	OID=0xFFFF. Object not injected, thus not registered. Held only by entity_map and any referring object in mem.
 	new_entity->code(0)=Atom::Object(r_exec::GetOpcode("ent"),1);
 	inject(new_entity,NID);
 	entity_map[OID]=new_entity;

@@ -76,7 +76,13 @@ public:
 
 		//	for testing.
 		Sleep(1000);
-		NODE->send(this,new	StopMem(),N::PRIMARY);
+		//NODE->send(this,new	StopMem(),N::PRIMARY);
+		Sample_String255	*s=new	Sample_String255();
+		s->object=0;
+		s->attribute=1;
+		char	*text="qwert asdfg";
+		memcpy(s->value,text,sizeof(char)*11);
+		NODE->send(this,s,N::PRIMARY);
 	}
 
 	//	rMem -> devices -> Loom.

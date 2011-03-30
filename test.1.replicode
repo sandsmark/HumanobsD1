@@ -1,6 +1,6 @@
 ;
 
-p1:(pgm |[]  |[] [(cmd speak ["Hello World." 0us] 1)]
+p1:(pgm |[]  |[] [(cmd speak ["Take a blue cube and put it there." 0us] 1)]
 1) |[]
 
 ip1:(ipgm p1 |[] RUN_ONCE 120000us NOTIFY 1) [[SYNC_FRONT now 0 forever root nil 1]]

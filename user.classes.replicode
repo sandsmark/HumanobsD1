@@ -31,7 +31,8 @@ color:(ont 1) [[SYNC_FRONT now 1 forever root nil]]; usage: (mk.val x color (rgb
 size:(ont 1) [[SYNC_FRONT now 1 forever root nil]]; usage: (mk.val x size "small" 1): no tolerance can apply (issue: distance on small:(ent 1) vs large:(ent 1)).
 attachment:(ont 1) [[SYNC_FRONT now 1 forever root nil]]; usage: (mk.val self_right_hand attachment a_thing 1)
 role:(ont 1) [[SYNC_FRONT now 1 forever root nil]]
-speech:(ont 1) [[SYNC_FRONT now 1 forever root nil]]; usage: (mk.val an_actor speech a_word 1)
+speech:(ont 1) [[SYNC_FRONT now 1 forever root nil]]; usage: (mk.val an_actor speech "a_word" 1)
+pointing:(ont 1) [[SYNC_FRONT now 1 forever root nil]]; usage: (mk.val an_actor pointing a_position 1)
 
 ; values.
 

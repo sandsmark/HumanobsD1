@@ -97,7 +97,8 @@ void	RMem::send_ontology_map(){
 		}
 	}
 
-	NODE->send(this,new	OntologyCount(entities.size()),N::PRIMARY);
+OntologyCount	*oc=new	OntologyCount(entities.size());
+	NODE->send(this,oc,N::PRIMARY);
 	//OUTPUT<<"RMem sent ontology member count "<<entities.size()<<std::endl;
 
 	UNORDERED_MAP<r_code::Code	*,std::string>::const_iterator	e;

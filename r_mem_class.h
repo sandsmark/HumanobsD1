@@ -96,6 +96,7 @@ public:
 class	Sample_String255:
 public	Sample<Sample_String255>{
 public:
+	Sample_String255(){	memset(value,0,256);	}
 	String255	value;
 	Code		*get_code(DMem	*m);
 };
