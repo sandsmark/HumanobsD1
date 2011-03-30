@@ -66,7 +66,7 @@ typedef	float32	Vec3[3];
 //	Object and attribute are identified by their OID (uint32)
 //	Value is either: uint32 (an object's ID), uint64 (a timestamp), bool, float32, String255, Vec3, etc.
 template<class	U>	class	Sample:
-public	Message<Sample<U>,Memory>{
+public	Message<U,Memory>{
 public:
 	uint32	object;
 	uint32	attribute;
