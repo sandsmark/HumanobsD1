@@ -39,12 +39,15 @@
 #define	NODE	module::Node::Get()
 #define	OUTPUT	NODE->trace(N::APPLICATION)
 
-MODULE_CLASS_BEGIN(Loom,Module<Loom>)
+MODULE_CLASS_BEGIN(Loom_module,Module<Loom_module>)
 public:
 	SharedLibrary	*lib;
 	
 	typedef	void	(*OutputToDevices)(_Payload	*p);
 	OutputToDevices	output_to_devices;
+
+	typedef	void	(*SetModule)( Loom_module *iModule );
+	SetModule	set_module;
 
 	std::string	device_hub_path;
 
@@ -56,7 +59,10 @@ public:
 		output_to_devices=NULL;
 		lib=SharedLibrary::New(device_hub_path.c_str());
 		if(lib)
-			output_to_devices=lib->getFunction<OutputToDevices>("output_to_devices");
+		{
+			output_to_devices = lib->getFunction<OutputToDevices>( "ProcessPayload" );
+			set_module        = lib->getFunction<SetModule>( "SetModule" );
+		}
 	}
 	void	stop(){
 		NODE->send(this,new	StopMem(),N::PRIMARY);
@@ -69,20 +75,18 @@ public:
 	void	react(SystemReady	*p){
 		OUTPUT<<"Loom "<<"got SysReady"<<std::endl;
 
+		if ( set_module )
+			set_module( this );
+
 		if(output_to_devices)
 			output_to_devices(p);
 
+		uint16 vId = StartMem::CID();
 		NODE->send(this,new	StartMem(),N::PRIMARY);
 
 		//	for testing.
-		Sleep(1000);
+		//Sleep(1000);
 		//NODE->send(this,new	StopMem(),N::PRIMARY);
-		Sample_String255	*s=new	Sample_String255();
-		s->object=0;
-		s->attribute=1;
-		char	*text="qwert asdfg";
-		memcpy(s->value,text,sizeof(char)*11);
-		NODE->send(this,s,N::PRIMARY);
 	}
 
 	//	rMem -> devices -> Loom.
@@ -143,7 +147,18 @@ public:
 		if(output_to_devices)
 			output_to_devices(p);
 	}
-MODULE_CLASS_END(Loom)
 
+	void	react(Sample_String255	*sample){
+		int a = 0;
+	}
+
+	void on_heard( const char *iText )
+	{
+		Sample_String255 *vText = new Sample_String255;
+		strncpy_s( vText->value, 255, iText, 255 );
+		NODE->send( this, vText, N::PRIMARY );
+	}
+
+MODULE_CLASS_END(Loom_module)
 
 #endif

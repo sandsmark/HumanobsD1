@@ -30,4 +30,4 @@
 
 #include "loom_module.h"
 
-LOAD_MODULE(Loom)
+LOAD_MODULE(Loom_module)
