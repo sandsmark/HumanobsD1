@@ -10,6 +10,17 @@
 
 !class (vec3 x:nb y:nb z:nb)
 !class (rgb r:nb g:nb b:nb)
+!class (speech_context (_obj {speaker:ent listener:ent}))
+
+
+; device functions.
+
+!dfn (grab_hand); arg0: a hand, arg1: deadline.
+!dfn (release_hand); arg0: a hand, arg1: deadline.
+!dfn (move_hand :); arg0: a hand, arg1: target position, arg2: deadline.
+!dfn (speak :); arg0: a word, arg1: deadline.
+!dfn (look_at :); arg0: a vec3, arg1: deadline.
+!dfn (point_at :); arg0: a hand, arg1: target position, arg2: deadline.
 
 
 ; initial groups.
@@ -17,6 +28,9 @@
 root:(std_grp 1 0 0 0 [nil]) [[SYNC_FRONT now 0 forever nil nil COV_OFF 0]]
 stdin:(std_grp 1 0 0 0 |[]) [[SYNC_FRONT now 0 forever root nil COV_OFF 0]]
 stdout:(std_grp 1 0 0 0 |[]) [[SYNC_FRONT now 0 forever root nil COV_OFF 0]]
+
+attention:(std_grp 1 0 0 0 |[]) [[SYNC_FRONT now 0 forever stdin nil COV_OFF 0]]
+models:(std_grp 1 1 0 0 |[]) [[SYNC_FRONT now 0 forever root nil COV_OFF 0]]; for storage; models are passive in this group: sln_thr=0, act_thr=1
 
 
 ; application ontology.
@@ -31,8 +45,13 @@ color:(ont 1) [[SYNC_FRONT now 1 forever root nil]]; usage: (mk.val x color (rgb
 size:(ont 1) [[SYNC_FRONT now 1 forever root nil]]; usage: (mk.val x size "small" 1): no tolerance can apply (issue: distance on small:(ent 1) vs large:(ent 1)).
 attachment:(ont 1) [[SYNC_FRONT now 1 forever root nil]]; usage: (mk.val self_right_hand attachment a_thing 1)
 role:(ont 1) [[SYNC_FRONT now 1 forever root nil]]
-speech:(ont 1) [[SYNC_FRONT now 1 forever root nil]]; usage: (mk.val an_actor speech "a_word" 1)
+speaking:(ont 1) [[SYNC_FRONT now 1 forever root nil]]; usage: (mk.val an_actor spaking "a_word" 1)
+listening:(ont 1) [[SYNC_FRONT now 1 forever root nil]]; usage: (mk.val an_actor listening "a_word" 1)
 pointing:(ont 1) [[SYNC_FRONT now 1 forever root nil]]; usage: (mk.val an_actor pointing a_position 1)
+
+action:(ont 1) [[SYNC_FRONT now 1 forever root nil]]
+action_target:(ont 1) [[SYNC_FRONT now 1 forever root nil]]
+most_salient:(ont 1) [[SYNC_FRONT now 1 forever root nil]]
 
 ; values.
 
@@ -40,6 +59,7 @@ actor:(ont 1) [[SYNC_FRONT now 1 forever root nil]]
 interviewer:(ont 1) [[SYNC_FRONT now 1 forever root nil]]
 interviewee:(ont 1) [[SYNC_FRONT now 1 forever root nil]]
 hand:(ont 1) [[SYNC_FRONT now 1 forever root nil]]
+head:(ont 1) [[SYNC_FRONT now 1 forever root nil]]
 cube:(ont 1) [[SYNC_FRONT now 1 forever root nil]]
 sphere:(ont 1) [[SYNC_FRONT now 1 forever root nil]]
 
@@ -63,12 +83,3 @@ human2_right_hand:(ent 1) [[SYNC_FRONT now 1 forever root nil]]
 (mk.val human2_right_hand essence hand 1) [[SYNC_FRONT now 1 forever root nil]]
 (mk.val human2_right_hand part_of human2 1) [[SYNC_FRONT now 1 forever root nil]]
 (mk.val human2 essence actor 1) [[SYNC_FRONT now 1 forever root nil]]
-
-; device functions.
-
-!dfn (grab_hand); arg0: a hand, arg1: deadline.
-!dfn (release_hand); arg0: a hand, arg1: deadline.
-!dfn (move_hand :); arg0: a hand, arg1: target position, arg2: deadline.
-!dfn (speak :); arg0: a word, arg1: deadline.
-!dfn (look_at :); arg0: a vec3, arg1: deadline.
-!dfn (point_at :); arg0: a hand, arg1: target position, arg2: deadline.
