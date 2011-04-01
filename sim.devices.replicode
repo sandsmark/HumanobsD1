@@ -85,42 +85,19 @@ i_pgm_update_thing_pos:(ipgm pgm_update_thing_pos |[] RUN_ALWAYS 0us NOTIFY 1) [
 
 ; --------------------------------------------
 
-p1:(pgm |[] |[] []
-   (inj []
-      cp:(mk.val a_cube position (vec3 10 20 30) 1)
-      [SYNC_FRONT now 1 1 stdin nil]
-   )
-   (inj []
-      (fact cp (+ now 30000us) 1 1)
-      [SYNC_FRONT now 1 1 stdin nil]
-   )
-   (inj []
-      sp:(mk.val self_right_hand position (vec3 10 20 30) 1)
-      [SYNC_FRONT now 1 1 stdin nil]
-   )
-   (inj []
-      (fact sp (+ now 30000us) 1 1)
-      [SYNC_FRONT now 1 1 stdin nil]
-   )
-   (inj []
-      gi:(iidp same_pos [a_cube self_right_hand (vec3 10 10 10) (+ now 30000us)] 1)
-      [SYNC_FRONT now 1 1 stdin nil]
-   )
-   (inj []
-      target:(fact gi (+ now 30000us) 1 1)
-      [SYNC_FRONT now 1 1 stdin nil]
-   )
-   (inj []
-      g:(mk.goal target self 1)
-      [SYNC_FRONT now 1 1 stdin nil]
-   )
-   (inj []
-      f_g:(fact g now 1 1)
-      [SYNC_FRONT now 1 1 stdin nil]
-   )
+
+
+; --------------------------------------------
+
+p1:(pgm |[]  |[] [(cmd speak ["Take a blue cube." 0us] 1)]
 1) |[]
 
-ip1:(ipgm p1 |[] RUN_ONCE 120000us NOTIFY 1) [[SYNC_FRONT now 0 forever root nil 1]]
+ip1:(ipgm p1 |[] RUN_ONCE 120000us NOTIFY 1) [[SYNC_FRONT now 0 forever root nil 0]]
+
+p2:(pgm |[]  |[] [(cmd speak ["put it there." 0us] 1)]
+1) |[]
+
+ip2:(ipgm p2 |[] RUN_ONCE 2000000us NOTIFY 1) [[SYNC_FRONT now 0 forever root nil 0]]
 
 ; --------------------------------------------
 
@@ -132,7 +109,7 @@ f_init_move_1:(fact init_move_1 0us 1 1) |[]
 init_move_2:(cmd move_hand [self_right_hand (vec3 10 10 10) 10us] 1) |[]
 f_init_move_2:(fact init_move_2 0us 1 1) |[]
 
-init_move:(idp [f_init_move_1 f_init_move_2] [stdout] 0us 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
+init_move:(cst [f_init_move_1 f_init_move_2] [stdout] 0us 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
 
 
 ; move.
@@ -155,18 +132,6 @@ move_feedback_2:(mk.val self_right_hand position (vec3 10 10 10) 1) |[]
 f_move_feedback_2:(fact move_feedback_2 10us 1 1) |[]
 
 move_feedback:(tdp [f_move_feedback_1 f_move_feedback_2] [stdout] 0us 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ; link.
@@ -272,21 +237,23 @@ release_req:(req f_release_req_1 f_release_req_2 [stdout] 0us 1) [[SYNC_FRONT no
 
 
 
-; ------------------------------------------------------------------
 
-a_cube2:(ent 1) [[SYNC_FRONT now 1 forever root nil]]
 
-a_cube3:(ent 1) [[SYNC_FRONT now 1 forever root nil]]
 
-p:(pgm |[] []
-   []
-      (ptn a:(ent ::) |[])
-      (ptn b:(ent ::) |[])
-   |[]
-   |[]
-[]
-   (prb [1 "print" "got 2 entities" [a b]])
-1) |[]
 
-ip:(ipgm p |[] RUN_ALWAYS 0us NOTIFY 1) [[SYNC_FRONT now 0 forever root nil 1]]
-
+(inj []
+      gi:(icst self_hand_position [self_right_hand (vec3 10 10 10) t] 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      target:(fact gi t 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      g:(mk.goal target self 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      f_g:(fact g now 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )

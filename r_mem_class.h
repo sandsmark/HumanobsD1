@@ -70,6 +70,7 @@ public	Message<U,Memory>{
 public:
 	uint32	object;
 	uint32	attribute;
+	virtual	void	trace(){	std::cout<<"object: "<<object<<" attr: "<<attribute<<" ";	}
 };
 
 class	Sample_Vec3:
@@ -77,6 +78,7 @@ public	Sample<Sample_Vec3>{
 public:
 	Vec3	value;
 	Code	*get_code(DMem	*m);
+	void	trace(){	Sample<Sample_Vec3>::trace(); std::cout<<"vec3: "<<value[0]<<" "<<value[1]<<" "<<value[2]<<std::endl;	}
 };
 
 class	Sample_uint32:
@@ -84,6 +86,7 @@ public	Sample<Sample_uint32>{
 public:
 	uint32	value;
 	Code	*get_code(DMem	*m);
+	void	trace(){	Sample<Sample_uint32>::trace(); std::cout<<"val: "<<value<<std::endl;	}
 };
 
 class	Sample_float32:
@@ -99,6 +102,7 @@ public:
 	Sample_String255(){	memset(value,0,256);	}
 	String255	value;
 	Code		*get_code(DMem	*m);
+	void	trace(){	Sample<Sample_String255>::trace(); std::cout<<"val: "<<value<<std::endl;	}
 };
 
 ////	rMem -> I/O		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

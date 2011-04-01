@@ -69,7 +69,7 @@
 !op (sub : :):
 !op (mul :nb :nb):nb
 !op (div :nb :nb):nb
-!op (dis :nb :nb):nb
+!op (dis : :):nb
 !op (ln :nb):nb
 !op (exp :nb):nb
 !op (log :nb):nb

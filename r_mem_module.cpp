@@ -33,11 +33,12 @@
 
 LOAD_MODULE(RMem)
 
+
 void	RMem::decompile(r_comp::Decompiler	&decompiler,r_comp::Image	*image,uint64	time_offset){
 
 	std::cout<<"\ndecompiling ...\n";
 	std::ostringstream	decompiled_code;
-	uint32	object_count=decompiler.decompile(image,&decompiled_code,time_offset);
+	uint32	object_count=decompiler.decompile(image,&decompiled_code,time_offset,true);
 	//uint32	object_count=image->code_segment.objects.size();
 	std::cout<<"... done\n";
 	std::cout<<"\n\nDECOMPILATION\n\n"<<decompiled_code.str()<<std::endl;
@@ -97,8 +98,7 @@ void	RMem::send_ontology_map(){
 		}
 	}
 
-OntologyCount	*oc=new	OntologyCount(entities.size());
-	NODE->send(this,oc,N::PRIMARY);
+	NODE->send(this,new	OntologyCount(entities.size()),N::PRIMARY);
 	//OUTPUT<<"RMem sent ontology member count "<<entities.size()<<std::endl;
 
 	UNORDERED_MAP<r_code::Code	*,std::string>::const_iterator	e;
@@ -106,6 +106,6 @@ OntologyCount	*oc=new	OntologyCount(entities.size());
 
 		std::string	name=e->second;
 		NODE->send(this,new	OntologyDef(name,e->first->getOID()),N::PRIMARY);
-		//OUTPUT<<"RMem sent 1 ontology member: "<<name<<std::endl;
+		OUTPUT<<"RMem sent 1 ontology member: "<<name<<" "<<e->first->getOID()<<std::endl;
 	}
 }

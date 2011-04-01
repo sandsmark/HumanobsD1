@@ -1,6 +1,49 @@
 ;
 
-p1:(pgm |[]  |[] [(cmd speak ["Take a blue cube and put it there." 0us] 1)]
+p4:(pgm []
+   (ptn destination:(vec3 ::) |[])
+[]
+   []
+      (ptn (mk.val self_right_hand attachment ::) |[])
+   |[]
+   |[]
+[]
+   (prb [1 "print" "move to final destination" |[]])
+   (cmd move_hand [self_right_hand destination now] 1)
 1) |[]
 
-ip1:(ipgm p1 |[] RUN_ONCE 120000us NOTIFY 1) [[SYNC_FRONT now 0 forever root nil 1]]
+
+p3:(pgm []
+   (ptn target_pos:(vec3 ::) |[])
+   (ptn destination:(vec3 ::) |[])
+[]
+   []
+      (ptn (mk.val self_right_hand position hand_pos#vec3: ::) |[])
+   |[]
+   []
+      (< (dis hand_pos target_pos) 4)
+[]
+   (prb [1 "print" "hand reached target" |[]])
+   (inj []
+      (ins p4 [destination] RUN_ONCE 0us SILENT)
+      [SYNC_FRONT now 1 forever stdin nil 1]
+   )
+   (cmd grab_hand [self_right_hand now] 1)
+1) |[]
+
+
+p2:(pgm |[] []
+   []
+      (ptn (mk.val o1: position pos: ::) |[])
+   |[]
+   |[]
+[]
+   (prb [1 "print" "got position" [pos]])
+   (inj []
+      (ins p3 [pos (vec3 0 0 -25)] RUN_ONCE 0us SILENT)
+      [SYNC_FRONT now 1 forever stdin nil 1]
+   )
+   (cmd move_hand [self_right_hand pos now] 1)
+1) |[]
+
+ip2:(ipgm p2 |[] RUN_ONCE 0us SILENT 1) [[SYNC_FRONT now 0 forever stdin nil 1]]

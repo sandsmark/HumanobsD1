@@ -7,7 +7,7 @@
   
 	<Space name="space1" activation_threshold="0.5"/><!--name is mandatory-->
 	<!--second, module instantiations-->
-  <Module class="Loom" name="loom" host="local">
+  <Module class="Loom_module" name="loom" host="MBD264">
     <Parameters>
       <Parameter value="C:\Work\Loom\Weaver\bin\modules\mBrane_d.dll" type="string"/>
     </Parameters>
@@ -27,8 +27,7 @@
 	<Module class="RMem" name="r_mem" host="local"><!--name optional-->
     <Parameters>
       <Parameter value="c:/work/HumanobsD1/main.replicode" type="string"/>
-
-      <Parameter value="100000" type="int32"/>
+      <Parameter value="200000" type="int32"/>
       <Parameter value="1" type="int32"/>
       <Parameter value="1" type="int32"/>
       <Parameter value="2" type="int32"/>

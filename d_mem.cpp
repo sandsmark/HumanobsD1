@@ -151,7 +151,7 @@ void	DMem::inject(Code	*object,uint8	nodeID){
 	Code	*fact=r_exec::factory::Object::Fact(object,now,1,1);
 
 	//	Build a default view for the fact.
-	*view=build_view(now,nodeID);
+	view=build_view(now,nodeID);
 
 	//	Inject the view.
 	view->set_object(fact);
@@ -166,6 +166,7 @@ Code	*DMem::get_object(uint32	OID,uint8	NID){
 
 	r_exec::LObject	*new_entity=new	r_exec::LObject();	//	OID=0xFFFF. Object not injected, thus not registered. Held only by entity_map and any referring object in mem.
 	new_entity->code(0)=Atom::Object(r_exec::GetOpcode("ent"),1);
+	new_entity->code(1)=Atom::Float(1);
 	inject(new_entity,NID);
 	entity_map[OID]=new_entity;
 	return	new_entity;
@@ -187,7 +188,7 @@ r_exec::View	*DMem::build_view(uint64	time,uint8	nodeID)	const{
 	view->code(VIEW_SYNC)=Atom::Boolean(true);				//	sync on front.
 	view->code(VIEW_IJT)=Atom::IPointer(extent_index);		//	iptr to injection time.
 	view->code(VIEW_SLN)=Atom::Float(1.0);					//	sln.
-	view->code(VIEW_RES)=Atom::Float(1.0);					//	res is set to 1 upr of the destination group.
+	view->code(VIEW_RES)=Atom::Float(1);					//	res is set to 1 upr of the destination group.
 	view->code(VIEW_HOST)=Atom::RPointer(0);				//	stdin/stdout is the only reference.
 	view->code(VIEW_ORG)=Atom::Node(nodeID);				//	org.
 

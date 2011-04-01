@@ -136,12 +136,16 @@ public:
 	*/
 
 	void	react(Sample_uint32	*sample){		
+		//sample->trace();
 		mem->inject(sample->get_code(mem),sample->senderNodeID());
 	}
 	void	react(Sample_Vec3	*sample){
+		
+		//sample->trace();
 		mem->inject(sample->get_code(mem),sample->senderNodeID());
 	}
 	void	react(Sample_String255	*sample){
+		//sample->trace();
 		mem->inject(sample->get_code(mem),sample->senderNodeID());
 	}
 MODULE_CLASS_END(RMem)

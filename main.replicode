@@ -1,3 +1,5 @@
-; !load c:/work/HumanobsD1/initial.HLP.replicode
+; !load c:/work/HumanobsD1/manipulation.replicode
+; !load c:/work/HumanobsD1/speech.in.replicode
+; !load c:/work/HumanobsD1/speech.out.replicode
 ; !load c:/work/HumanobsD1/sim.devices.replicode
 !load c:/work/HumanobsD1/test.1.replicode
