@@ -65,8 +65,8 @@ interviewer:(ont 1) [[SYNC_FRONT now 1 forever root nil]]
 interviewee:(ont 1) [[SYNC_FRONT now 1 forever root nil]]
 hand:(ont 1) [[SYNC_FRONT now 1 forever root nil]]
 head:(ont 1) [[SYNC_FRONT now 1 forever root nil]]
-cube:(ont 1) [[SYNC_FRONT now 1 forever root nil]]
-sphere:(ont 1) [[SYNC_FRONT now 1 forever root nil]]
+cube:(ent 1) [[SYNC_FRONT now 1 forever root nil]]
+sphere:(ent 1) [[SYNC_FRONT now 1 forever root nil]]
 
 
 ; initial application objects.

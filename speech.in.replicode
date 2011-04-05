@@ -5,22 +5,103 @@
 
 ; cst_stand_col_ess_pos
 
+a_thing_0:(ent 1) |[]
+a_cube_0:(ent 1) |[]
+
+col_0:(mk.val a_thing_0 position (vec3 0 0 0) 1) |[]
+f_col_0:(fact col_0 0us 1 1) |[]
+
+ess_0:(mk.val a_thing_0 essence a_cube_0 1) |[]
+f_ess_0:(fact ess_0 0us 1 1) |[]
+
+pos_0:(mk.val a_thing_0 position (vec3 0 0 0) 1) |[]
+f_pos_0:(fact pos_0 0us 1 1) |[]
+
+cst_stand_col_ess_pos:(cst [f_col_0 f_ess_0 f_pos_0] [stdin] 0us 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
+
 
 ; cst_stand_col_ess_pos_sln
+
+a_thing_1:(ent 1) |[]
+a_cube_1:(ent 1) |[]
+
+col_1:(mk.val a_thing_1 position (vec3 0 0 0) 1) |[]
+f_col_1:(fact col_1 0us 1 1) |[]
+
+ess_1:(mk.val a_thing_1 essence a_cube_0 1) |[]
+f_ess_1:(fact ess_1 0us 1 1) |[]
+
+pos_1:(mk.val a_thing_1 position (vec3 0 0 0) 1) |[]
+f_pos_1:(fact pos_1 0us 1 1) |[]
+
+sln_1:(mk.val a_thing_1 most_salient nil 1) |[]
+f_sln_1:(fact sln_1 0us 1 1) |[]
+
+cst_stand_col_ess_pos_sln:(cst [f_col_1 f_ess_1 f_pos_1 f_sln_1] [stdin] 0us 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
 
 
 ; cst_stand_pos_sln
 
+a_thing_2:(ent 1) |[]
+
+pos_2:(mk.val a_thing_2 position (vec3 0 0 0) 1) |[]
+f_pos_2:(fact pos_2 0us 1 1) |[]
+
+sln_2:(mk.val a_thing_2 most_salient nil 1) |[]
+f_sln_2:(fact sln_2 0us 1 1) |[]
+
+cst_stand_pos_sln:(cst [f_pos_2 f_sln_2] [stdin] 0us 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
+
 
 ; cst_taken_col_ess
+
+a_thing_3:(ent 1) |[]
+a_hand_3:(ent 1) |[]
+
+col_3:(mk.val a_thing_3 position (vec3 0 0 0) 1) |[]
+f_col_3:(fact col_3 0us 1 1) |[]
+
+ess_3:(mk.val a_thing_3 essence a_cube_0 1) |[]
+f_ess_3:(fact ess_3 0us 1 1) |[]
+
+in_hand_3:(icst self_hand_position [a_hand_3 (vec3 0 0 0) 0us] 1) |[]
+f_in_hand_3:(fact in_hand_3 0us 1 1) |[]
+
+cst_stand_pos_sln:(cst [f_col_3 f_in_hand_3] [stdin] 0us 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
 
 
 ; cst_taken_col_ess_sln
 
+a_thing_4:(ent 1) |[]
+a_hand_4:(ent 1) |[]
+
+col_4:(mk.val a_thing_4 position (vec3 0 0 0) 1) |[]
+f_col_4:(fact col_4 0us 1 1) |[]
+
+ess_4:(mk.val a_thing_4 essence a_cube_0 1) |[]
+f_ess_4:(fact ess_4 0us 1 1) |[]
+
+sln_4:(mk.val a_thing_4 most_salient nil 1) |[]
+f_sln_4:(fact sln_4 0us 1 1) |[]
+
+in_hand_4:(icst self_hand_position [a_hand_4 (vec3 0 0 0) 0us] 1) |[]
+f_in_hand_4:(fact in_hand_3 0us 1 1) |[]
+
+cst_taken_col_ess_sln:(cst [f_col_! f_ess_4 f_sln_4 f_in_hand_4] [stdin] 0us 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
+
 
 ; cst_taken_sln
 
+a_thing_5:(ent 1) |[]
+a_hand_5:(ent 1) |[]
 
+sln_5:(mk.val a_thing_5 most_salient nil 1) |[]
+f_sln_5:(fact sln_5 0us 1 1) |[]
+
+in_hand_5:(icst self_hand_position [a_hand_5 (vec3 0 0 0) 0us] 1) |[]
+f_in_hand_5:(fact in_hand_5 0us 1 1) |[]
+
+cst_taken_sln:(cst [f_sln_5 f_in_hand_5] [stdin] 0us 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
 
 
 ; parsing programs.
