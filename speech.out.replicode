@@ -10,14 +10,20 @@ speech_out1:(pgm |[] []
       (ptn (mk.val h1: part_of l: ::) |[])
       (ptn (mk.val h2: essence head ::) |[])
       (ptn (mk.val h3: position l_pos: ::) |[])
+      (ptn (mk.val col1 name col_name:) |[])
+      (ptn (mk.val ess1 name ess_name:) |[])
    |[]
    []
       (= listener l)
       (= h1 h2)
       (= h1 h3)
+      (= col1 col)
+      (= ess1 ess)
 []
    (cmd look_at [l_pos now] 1)
-   (cmd speak ["Put a blue cube" now] 1)
+   (cmd speak ["Put a" now] 1)
+   (cmd speak [col_name (+ now 1000000us) ] 1)
+   (cmd speak [ess_name (+ now 2000000us) now] 1)
    (cmd look_at [l_pos now] 1)
    (cmd point_at [pos now] 1)
    (cmd speak ["there." now] 1)
@@ -32,14 +38,20 @@ speech_out2:(pgm |[] []
       (ptn (mk.val h1: part_of l: ::) |[])
       (ptn (mk.val h2: essence head ::) |[])
       (ptn (mk.val h3: position l_pos: ::) |[])
+      (ptn (mk.val col1 name col_name:) |[])
+      (ptn (mk.val ess1 name ess_name:) |[])
    |[]
    []
       (= listener l)
       (= h1 h2)
       (= h1 h3)
+      (= col1 col)
+      (= ess1 ess)
 []
    (cmd look_at [l_pos now] 1)
-   (cmd speak ["Take a blue cube" now] 1)
+   (cmd speak ["Take a" now] 1)
+   (cmd speak [col_name (+ now 1000000us) ] 1)
+   (cmd speak [ess_name (+ now 2000000us) now] 1)
 1) |[]
 
 i_speech_out2:(ipgm speech_out2 |[] RUN_ALWAYS 0us NOTIFY 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
