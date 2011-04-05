@@ -1,0 +1,67 @@
+; speech-out grammar.
+
+
+; goal translation programs.
+
+
+speech_out1:(pgm |[] []
+   []
+      (ptn (mk.goal (fact (mk.goal (fact (icst cst_stand_col_ess_pos [(var ::) col: ess: pos:] ::) ::) listener ::) ::) self ::) |[])
+      (ptn (mk.val h1: part_of l: ::) |[])
+      (ptn (mk.val h2: essence head ::) |[])
+      (ptn (mk.val h3: position l_pos: ::) |[])
+   |[]
+   []
+      (= listener l)
+      (= h1 h2)
+      (= h1 h3)
+[]
+   (cmd look_at [l_pos now] 1)
+   (cmd speak ["Put a blue cube" now] 1)
+   (cmd look_at [l_pos now] 1)
+   (cmd point_at [pos now] 1)
+   (cmd speak ["there." now] 1)
+1) |[]
+
+i_speech_out1:(ipgm speech_out1 |[] RUN_ALWAYS 0us NOTIFY 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
+
+
+speech_out2:(pgm |[] []
+   []
+      (ptn (mk.goal (fact (mk.goal (fact (icst cst_taken_col_ess [(var ::) col: ess:] ::) ::) listener ::) ::) self ::) |[])
+      (ptn (mk.val h1: part_of l: ::) |[])
+      (ptn (mk.val h2: essence head ::) |[])
+      (ptn (mk.val h3: position l_pos: ::) |[])
+   |[]
+   []
+      (= listener l)
+      (= h1 h2)
+      (= h1 h3)
+[]
+   (cmd look_at [l_pos now] 1)
+   (cmd speak ["Take a blue cube" now] 1)
+1) |[]
+
+i_speech_out2:(ipgm speech_out2 |[] RUN_ALWAYS 0us NOTIFY 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
+
+
+speech_out3:(pgm |[] []
+   []
+      (ptn (mk.goal (fact (mk.goal (fact (icst cst_stand_sln [(var ::)] ::) ::) listener ::) ::) self ::) |[])
+      (ptn (mk.val h1: part_of l: ::) |[])
+      (ptn (mk.val h2: essence head ::) |[])
+      (ptn (mk.val h3: position l_pos: ::) |[])
+   |[]
+   []
+      (= listener l)
+      (= h1 h2)
+      (= h1 h3)
+[]
+   (cmd look_at [l_pos now] 1)
+   (cmd speak ["Put it" now] 1)
+   (cmd look_at [l_pos now] 1)
+   (cmd point_at [pos now] 1)
+   (cmd speak ["there." now] 1)
+1) |[]
+
+i_speech_out3:(ipgm speech_out3 |[] RUN_ALWAYS 0us NOTIFY 1) [[SYNC_FRONT now 0 forever stdin nil 1]]

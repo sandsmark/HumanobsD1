@@ -1,0 +1,436 @@
+; speech-in grammar.
+
+
+; referred states.
+
+; cst_stand_col_ess_pos
+
+
+; cst_stand_col_ess_pos_sln
+
+
+; cst_stand_pos_sln
+
+
+; cst_taken_col_ess
+
+
+; cst_taken_col_ess_sln
+
+
+; cst_taken_sln
+
+
+
+
+; parsing programs.
+
+speech_in1:(pgm |[] []
+   []
+      (ptn (mk.val speaker: speaking verb: ::) |[])
+      (ptn (mk.val listener: listening sp: ::) |[])
+   []
+      (= listener sp)
+   |[]
+[]
+   (inj []
+      sc:(speech_context speaker listener 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      (mk.val sc action verb 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+1) |[]
+
+i_speech_in1:(ipgm speech_in1 |[] RUN_ALWAYS 0us NOTIFY 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
+
+
+speech_in2:(pgm |[] []
+   []
+      (ptn sc:(speech_context speaker: ::) |[])
+      (ptn (mk.val actor: speaking "a" ::) |[])
+   |[]
+   []
+      (= speaker actor)
+[]
+   (inj []
+      (mk.val sc action_target nil 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+1) |[]
+
+i_speech_in2:(ipgm speech_in2 |[] RUN_ALWAYS 0us NOTIFY 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
+
+
+speech_in2a:(pgm |[]  []
+   []
+      (ptn sc:(speech_context speaker: ::) |[])
+      (ptn (mk.val actor: speaking "the" ::) |[])
+   |[]
+   []
+      (= speaker actor)
+[]
+   (inj []
+      (mk.val sc action_target most_salient 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+1) |[]
+
+i_speech_in2a:(ipgm speech_in2a |[] RUN_ALWAYS 0us NOTIFY 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
+
+
+speech_in2b:(pgm |[] []
+   []
+      (ptn sc:(speech_context speaker: ::) |[])
+      (ptn (mk.val actor: speaking "it" ::) |[])
+   |[]
+   []
+      (= speaker actor)
+[]
+   (inj []
+      (mk.val sc action_target most_salient 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+1) |[]
+
+i_speech_in2b:(ipgm speech_in2b |[] RUN_ALWAYS 0us NOTIFY 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
+
+
+speech_in3:(pgm |[] []
+   []
+      (ptn sc:(speech_context speaker: ::) |[])
+      (ptn (mk.val actor: speaking col: ::) |[])
+      oc:(ptn (mk.val _sc: action_target ::) |[])
+   |[]
+   []
+      (= speaker actor)
+      (= sc _sc)
+[]
+   (inj []
+      (mk.val oc color col 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+1) |[]
+
+i_speech_in3:(ipgm speech_in3 |[] RUN_ALWAYS 0us NOTIFY 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
+
+
+speech_in4:(pgm |[] []
+   []
+      (ptn sc:(speech_context speaker: ::) |[])
+      (ptn (mk.val actor: speaking ess: ::) |[])
+      oc:(ptn (mk.val _sc: action_target ::) |[])
+   |[]
+   []
+      (= speaker actor)
+      (= sc _sc)
+[]
+   (inj []
+      (mk.val oc essence ess: 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+1) |[]
+
+i_speech_in4:(ipgm speech_in4 |[] RUN_ALWAYS 0us NOTIFY 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
+
+
+speech_in5:(pgm |[] []
+   []
+      (ptn sc:(speech_context speaker: ::) |[])
+      (ptn (mk.val actor1: speaking "there" ::) |[])
+      (ptn (mk.val actor2: pointing pos: ::) |[])
+      oc:(ptn (mk.val _sc: action_target nil ::) |[])
+   |[]
+   []
+      (= speaker actor1)
+      (= speaker actor2)
+      (= sc _sc)
+[]
+   (inj []
+      (mk.val oc position pos 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+1) |[]
+
+i_speech_in5:(ipgm speech_in5 |[] RUN_ALWAYS 0us NOTIFY 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
+
+
+speech_in6:(pgm |[] []
+   []
+      (ptn sc:(speech_context : listener: ::) |[])
+      (ptn (mk.val sc1 action "put" ::) |[])
+      (ptn oc:(mk.val sc2: action_target nil ::) |[])
+      (ptn (mk.val oc1: color col: ::) |[])
+      (ptn (mk.val oc2: essence ess: ::) |[])
+      (ptn (mk.val oc3: position pos: ::) |[])
+   |[]
+   []
+      (= sc sc1)
+      (= sc sc2)
+      (= oc oc1)
+      (= oc oc2)
+      (= oc oc3)
+[]
+   (inj []
+      v:(var 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      i_cst:(icst cst_stand_col_ess_pos [v col ess pos] 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      listener_goal_fact:(fact i_cst 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      listener_goal:(mk.goal listener_goal_fact listener 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      fact_listener_goal:(fact listener_goal 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      speaker_goal:(mk.goal fact_listener_goal speaker 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      (fact speaker_goal 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+1) |[]
+
+i_speech_in6:(ipgm speech_in6 |[] RUN_ALWAYS 0us NOTIFY 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
+
+
+speech_in6a:(pgm |[] []
+   []
+      (ptn sc:(speech_context : listener: ::) |[])
+      (ptn (mk.val sc1 action "put" ::) |[])
+      (ptn oc:(mk.val sc2: action_target most_salient ::) |[])
+      (ptn (mk.val oc1: color col: ::) |[])
+      (ptn (mk.val oc2: essence ess: ::) |[])
+      (ptn (mk.val oc3: position pos: ::) |[])
+   |[]
+   []
+      (= sc sc1)
+      (= sc sc2)
+      (= oc oc1)
+      (= oc oc2)
+      (= oc oc3)
+[]
+   (inj []
+      v:(var 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      i_cst:(icst cst_stand_col_ess_pos_sln [v col ess pos] 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      listener_goal_fact:(fact i_cst 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      listener_goal:(mk.goal listener_goal_fact listener 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      fact_listener_goal:(fact listener_goal 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      speaker_goal:(mk.goal fact_listener_goal speaker 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      (fact speaker_goal 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+1) |[]
+
+i_speech_in6a:(ipgm speech_in6a |[] RUN_ALWAYS 0us NOTIFY 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
+
+
+speech_in6b:(pgm |[] []
+   []
+      (ptn sc:(speech_context : listener: ::) |[])
+      (ptn (mk.val sc1 action "put" ::) |[])
+      (ptn oc:(mk.val sc2: action_target most_salient ::) |[])
+      (ptn (mk.val oc1: position pos: ::) |[])
+   |[]
+   []
+      (= sc sc1)
+      (= sc sc2)
+      (= oc oc1)
+[]
+   (inj []
+      v:(var 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      i_cst:(icst cst_stand_pos_sln [v pos] 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      listener_goal_fact:(fact i_cst 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      listener_goal:(mk.goal listener_goal_fact listener 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      fact_listener_goal:(fact listener_goal 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      speaker_goal:(mk.goal fact_listener_goal speaker 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      (fact speaker_goal 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+1) |[]
+
+i_speech_in6b:(ipgm speech_in6b |[] RUN_ALWAYS 0us NOTIFY 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
+
+
+speech_in7:(pgm |[] []
+   []
+      (ptn sc:(speech_context : listener: ::) |[])
+      (ptn (mk.val sc1 action "take" ::) |[])
+      (ptn oc:(mk.val sc2: action_target nil ::) |[])
+      (ptn (mk.val oc1: color col: ::) |[])
+      (ptn (mk.val oc2: essence ess: ::) |[])
+   |[]
+   []
+      (= sc sc1)
+      (= sc sc2)
+      (= oc oc1)
+      (= oc oc2)
+[]
+   (inj []
+      v:(var 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      i_cst:(icst cst_taken_col_ess [v col ess] 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      listener_goal_fact:(fact i_cst 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      listener_goal:(mk.goal listener_goal_fact listener 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      fact_listener_goal:(fact listener_goal 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      speaker_goal:(mk.goal fact_listener_goal speaker 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      (fact speaker_goal 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+1) |[]
+
+i_speech_in7:(ipgm speech_in7 |[] RUN_ALWAYS 0us NOTIFY 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
+
+
+speech_in7a:(pgm |[] []
+   []
+      (ptn sc:(speech_context : listener: ::) |[])
+      (ptn (mk.val sc1 action "take" ::) |[])
+      (ptn oc:(mk.val sc2: action_target most_salient ::) |[])
+      (ptn (mk.val oc1: color col: ::) |[])
+      (ptn (mk.val oc2: essence ess: ::) |[])
+   |[]
+   []
+      (= sc sc1)
+      (= sc sc2)
+      (= oc oc1)
+      (= oc oc2)
+[]
+   (inj []
+      v:(var 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      i_cst:(icst cst_taken_col_ess_sln [v col ess] 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      listener_goal_fact:(fact i_cst 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      listener_goal:(mk.goal listener_goal_fact listener 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      fact_listener_goal:(fact listener_goal 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      speaker_goal:(mk.goal fact_listener_goal speaker 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      (fact speaker_goal 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+1) |[]
+
+i_speech_in7a:(ipgm speech_in7a |[] RUN_ALWAYS 0us NOTIFY 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
+
+
+speech_in7b:(pgm |[] []
+   []
+      (ptn sc:(speech_context : listener: ::) |[])
+      (ptn (mk.val sc1 action "take" ::) |[])
+      (ptn oc:(mk.val sc2: action_target most_salient ::) |[])
+   |[]
+   []
+      (= sc sc1)
+      (= sc sc2)
+[]
+   (inj []
+      v:(var 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      i_cst:(icst cst_taken_sln [v] 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      listener_goal_fact:(fact i_cst 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      listener_goal:(mk.goal listener_goal_fact listener 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      fact_listener_goal:(fact listener_goal 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      speaker_goal:(mk.goal fact_listener_goal speaker 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+   (inj []
+      (fact speaker_goal 1 1)
+      [SYNC_FRONT now 1 1 stdin nil]
+   )
+1) |[]
+
+i_speech_in7b:(ipgm speech_in7b |[] RUN_ALWAYS 0us NOTIFY 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
