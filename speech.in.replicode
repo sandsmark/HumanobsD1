@@ -104,6 +104,12 @@ f_in_hand_5:(fact in_hand_5 0us 1 1) |[]
 cst_taken_sln:(cst [f_sln_5 f_in_hand_5] [stdin] 0us 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
 
 
+; names.
+
+(mk.val cube name "cube" 1) |[]
+(mk.val sphere name "sphere" 1) |[]
+
+
 ; parsing programs.
 
 speech_in1:(pgm |[] []
