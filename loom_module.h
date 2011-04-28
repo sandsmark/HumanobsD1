@@ -147,6 +147,17 @@ public:
 		if(output_to_devices)
 			output_to_devices(p);
 	}
+	void	react(Sample_Vec3	*p){
+
+		if(output_to_devices)
+			output_to_devices(p);
+	}
+
+	void	react(Bones	*p){
+
+		if(output_to_devices)
+			output_to_devices(p);
+	}
 
 	void	react(Sample_String255	*sample){
 		int a = 0;

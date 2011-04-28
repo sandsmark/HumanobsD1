@@ -31,7 +31,8 @@
 #ifndef	r_mem_class_h
 #define	r_mem_class_h
 
-#include	"../mBrane/trunk/Core/mbrane.h"
+//#include	"../mBrane/trunk/Core/mbrane.h"
+#include	<mBrane/trunk/Core/mbrane.h>
 #include	"d_mem.h"
 
 
@@ -61,6 +62,7 @@ public:
 
 typedef	char	String255[255];
 typedef	float32	Vec3[3];
+typedef	float32	Vec4[4];
 
 //	Translates to (mk.val object attribute value).
 //	Object and attribute are identified by their OID (uint32)
@@ -137,7 +139,7 @@ public:
 	uint64	deadline;	//	o means asap.
 };
 
-class	Speak:
+class Speak:
 public	Command<Speak>{
 public:
 	String255	word;
@@ -173,6 +175,16 @@ class	LookAt:
 public	Command<LookAt>{
 public:
 	Vec3	target_position;
+};
+
+class	Bones:
+public	Command<Bones>{
+public:
+	Bones() {}
+	Vec3	Positions[32];
+	Vec4	Orientations[32];
+	uint32  NumBones;
+	uint32  Id;
 };
 
 

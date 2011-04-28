@@ -36,6 +36,12 @@
 #include	"../Replicode/r_exec/object.h"
 #include	"../Replicode/r_exec/mem.h"
 
+#ifdef HUMANOBSD1_EXPORTS
+	#define HUMANOBSD1_API __declspec(dllexport)
+#else
+	#define HUMANOBSD1_API __declspec(dllimport)
+#endif
+
 
 class	RMem;
 

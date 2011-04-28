@@ -28,6 +28,8 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+				CommandLine="copy Debug\HumanobsD1.dll C:\Code\CMLabs\Loom\Weaver\bin\&#x0D;&#x0A;copy Debug\HumanobsD1.pdb C:\Code\CMLabs\Loom\Weaver\bin\&#x0D;&#x0A;"
+				Outputs="c:\lofasz"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -41,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\CoreLibrary;..\r_code;..\r_comp;..\r_exec;..\Core"
+				AdditionalIncludeDirectories="..\CoreLibrary;..\r_code;..\r_comp;..\r_exec;..\Core;.."
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;HUMANOBSD1_EXPORTS"
 				MinimalRebuild="true"
 				ExceptionHandling="0"
@@ -64,8 +66,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="CoreLibrary.lib Core.lib r_code.lib r_exec.lib r_comp.lib"
+				OutputFile="$(ProjectDir)\Debug\$(ProjectName).dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(SolutionDir)\..\CoreLibrary\trunk\Debug&quot;;&quot;$(SolutionDir)\..\Replicode\Debug&quot;;&quot;$(SolutionDir)\..\mBrane\trunk\Debug&quot;"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(ProjectDir)..\CoreLibrary\trunk\Debug&quot;;&quot;$(ProjectDir)\..\Replicode\Debug&quot;;&quot;$(ProjectDir)\..\mBrane\trunk\Debug&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -90,6 +93,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -253,18 +257,18 @@
 				RelativePath=".\sample_io_module.h"
 				>
 			</File>
-		</Filter>
-		<Filter
-			Name="Settings"
-			>
-			<File
-				RelativePath=".\r_mem.xml"
+			<Filter
+				Name="Settings"
 				>
-			</File>
-			<File
-				RelativePath=".\r_mem_node.xml"
-				>
-			</File>
+				<File
+					RelativePath=".\r_mem.xml"
+					>
+				</File>
+				<File
+					RelativePath=".\r_mem_node.xml"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Test Files"
