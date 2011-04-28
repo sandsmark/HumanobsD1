@@ -70,7 +70,8 @@ int32	RMem::initialize(){
 					asmp_resilience,
 					sim_resilience,
 					float_tolerance,
-					time_tolerance);
+					time_tolerance,
+					1000000);
 		if(!mem->load(ram_objects.as_std()))
 			return	2;
 	}
