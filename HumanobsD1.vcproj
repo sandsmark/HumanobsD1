@@ -28,8 +28,8 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
-				CommandLine="copy Debug\HumanobsD1.dll C:\Code\CMLabs\Loom\Weaver\bin\&#x0D;&#x0A;copy Debug\HumanobsD1.pdb C:\Code\CMLabs\Loom\Weaver\bin\&#x0D;&#x0A;"
-				Outputs="c:\lofasz"
+				CommandLine=""
+				Outputs=""
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
