@@ -32,7 +32,7 @@
 #define	r_mem_class_h
 
 //#include	"../mBrane/trunk/Core/mbrane.h"
-#include	<mBrane/trunk/Core/mbrane.h>
+#include	<mBrane/trunk/Core/mBrane.h>
 #include	"d_mem.h"
 
 

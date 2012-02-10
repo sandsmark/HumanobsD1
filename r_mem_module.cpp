@@ -59,20 +59,44 @@ int32	RMem::initialize(){
 
 		mem=new	DMem(this);
 
-		r_exec::Seed.getObjects(mem,ram_objects);
+		r_exec::Seed.get_objects(mem,ram_objects);
 
 		mem->init(	base_period,
 					reduction_core_count,
 					time_core_count,
-					probe_level,
-					notification_resilience,
-					goal_resilience,
-					asmp_resilience,
-					sim_resilience,
+					mdl_inertia_sr_thr,
+					mdl_inertia_cnt_thr,
+					tpx_dsr_thr,
+					min_sim_time_horizon,
+					max_sim_time_horizon,
+					sim_time_horizon,
+					tpx_time_horizon,
+					perf_sampling_period,
 					float_tolerance,
 					time_tolerance,
-					1000000);
-		if(!mem->load(ram_objects.as_std()))
+					debug,
+					ntf_mk_res,
+					goal_pred_success_res,
+					probe_level);
+
+		uint32	stdin_oid;
+		std::string	stdin_symbol("stdin");
+		uint32	stdout_oid;
+		std::string	stdout_symbol("stdout");
+		uint32	self_oid;
+		std::string	self_symbol("self");
+		UNORDERED_MAP<uint32,std::string>::const_iterator	n;
+		for(n=r_exec::Seed.object_names.symbols.begin();n!=r_exec::Seed.object_names.symbols.end();++n){
+
+			if(n->second==stdin_symbol)
+				stdin_oid=n->first;
+			else	if(n->second==stdout_symbol)
+				stdout_oid=n->first;
+			else	if(n->second==self_symbol)
+				self_oid=n->first;
+		}
+
+		if(!mem->load(ram_objects.as_std(),stdin_oid,stdout_oid,self_oid))
 			return	2;
 	}
 
@@ -106,7 +130,7 @@ void	RMem::send_ontology_map(){
 	for(e=entities.begin();e!=entities.end();++e){
 
 		std::string	name=e->second;
-		NODE->send(this,new	OntologyDef(name,e->first->getOID()),N::PRIMARY);
-		OUTPUT<<"RMem sent 1 ontology member: "<<name<<" "<<e->first->getOID()<<std::endl;
+		NODE->send(this,new	OntologyDef(name,e->first->get_oid()),N::PRIMARY);
+		OUTPUT<<"RMem sent 1 ontology member: "<<name<<" "<<e->first->get_oid()<<std::endl;
 	}
 }

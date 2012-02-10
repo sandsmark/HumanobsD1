@@ -3,10 +3,8 @@
 p4:(pgm []
    (ptn destination:(vec3 ::) |[])
 []
-   []
-      (ptn (mk.val self_right_hand attachment ::) |[])
-   |[]
-   |[]
+   (ptn (mk.val self_right_hand attachment ::) |[])
+|[]
 []
    (prb [1 "print" "move to final destination" |[]])
    (cmd move_hand [self_right_hand destination now] 1)
@@ -17,11 +15,9 @@ p3:(pgm []
    (ptn target_pos:(vec3 ::) |[])
    (ptn destination:(vec3 ::) |[])
 []
-   []
-      (ptn (mk.val self_right_hand position hand_pos#vec3: ::) |[])
-   |[]
-   []
-      (< (dis hand_pos target_pos) 4)
+   (ptn (mk.val self_right_hand position hand_pos#vec3: ::) |[])
+[]
+   (< (dis hand_pos target_pos) 4)
 []
    (prb [1 "print" "hand reached target" |[]])
    (inj []
@@ -32,11 +28,10 @@ p3:(pgm []
 1) |[]
 
 
-p2:(pgm |[] []
-   []
-      (ptn (mk.val o1: position pos: ::) |[])
-   |[]
-   |[]
+p2:(pgm |[]
+[]
+   (ptn (mk.val o1: position pos: ::) |[])
+|[]
 []
    (prb [1 "print" "got position" [pos]])
    (inj []

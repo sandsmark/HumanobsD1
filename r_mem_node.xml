@@ -9,11 +9,11 @@
 			<RM	shared_library="mBrane_rm"/><!--Reliable Multicast-->
 			<IB shared_library="mBrane_mpi_o_ib"/><!--MPI over infiniband, Linux only-->
 		</Interfaces>
-    <Discovery interface="UDP" nic="Realtek PCIe GBE Family Controller" port="10000"/>
+    <Discovery interface="UDP" nic="192.168.0.100" port="10000"/>
     <Primary>
-      <Control interface="TCP" nic="Realtek PCIe GBE Family Controller" port="10001"/>
-      <Data interface="TCP" nic="Realtek PCIe GBE Family Controller" port="10002"/>
-      <Stream interface="TCP" nic="Realtek PCIe GBE Family Controller" port="10003"/>
+      <Control interface="TCP" nic="192.168.0.100" port="10001"/>
+      <Data interface="TCP" nic="192.168.0.100" port="10002"/>
+      <Stream interface="TCP" nic="192.168.0.100" port="10003"/>
     </Primary>
     <Secondary>
 			<!--same form as primary's-->
@@ -21,7 +21,7 @@
 	</Network>
 	<!--for future use
 	<SharedMemory shared_library="mBrane_rdma_o_ib>">
-		shared_library: access to a fabric allowing RDMA semantics (here RDMA over IB, Linux only)
+		shared_library: access to a switched fabric allowing RDMA semantics (here RDMA over IB, Linux only)
 		follow declarations of pinned down RAM segments
 		form: <Segment size="" mode=""/> size in MB, mode is read or write; segments to be made available to modules via the module_node_api
 	</SharedMemory>
@@ -32,7 +32,6 @@
 	</Daemons>
 	<Nodes><!--SystemReady will be sent when all the nodes listed here are up and running; no need to list the local node (implicit)-->
 		<!--ex: <Node hostname=""/>-->
-    <Node hostname="MBD264"/>
 	</Nodes>
 	<Threads thread_count="2"/><!--in [1,512]-->
 </NodeConfiguration>

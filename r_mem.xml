@@ -7,7 +7,7 @@
   
 	<Space name="space1" activation_threshold="0.5"/><!--name is mandatory-->
 	<!--second, module instantiations-->
-  <Module class="HD1Loom" name="loom" host="local">
+  <!--<Module class="HD1Loom" name="loom" host="local">
     <Parameters>
       <Parameter value="C:\Work\Loom\Weaver\bin\modules\mBrane_d.dll" type="string"/>
     </Parameters>
@@ -23,21 +23,70 @@
       <Subscription message_class="Release"/>
       <Subscription message_class="LookAt"/>
     </Projection>
-  </Module>
+  </Module>-->
 	<Module class="RMem" name="r_mem" host="local"><!--name optional-->
     <Parameters>
-      <Parameter value="c:/work/HumanobsD1/main.replicode" type="string"/>
+      <!--
+       <Load
+        usr_operator_path="./usr_operators.dll"
+        usr_class_path="../../V1.2/user.classes.replicode"
+        source_file_name="../../V1.2/test.1.replicode"
+      />
+      <Init
+        base_period="50000"
+        reduction_core_count="3"
+        time_core_count="1"
+      />
+      <System
+        mdl_inertia_sr_thr="0.9"
+        mdl_inertia_cnt_thr="10"
+        tpx_dsr_thr="0.1"
+        min_sim_time_horizon="25000"
+        max_sim_time_horizon="100000"
+        sim_time_horizon="0.3"
+        tpx_time_horizon="500000"
+        perf_sampling_period="250000"
+        float_tolerance="0.1"
+        time_tolerance="10000"
+      />
+      <Debug debug="yes">
+        <Resilience
+          ntf_mk_resilience="2000"
+          goal_pred_success_resilience="1000"
+        />
+      </Debug>
+      <Run
+        run_time="1000"
+        probe_level="2"
+        decompile_image="yes"
+        ignore_ontology="yes"
+        write_image="no"
+        image_path="../Test/test.replicode.image"
+        test_image="no"
+      />
+      -->
+      <Parameter value="c:/work/V1.2/test.1.replicode" type="string"/>
 
-      <Parameter value="100000" type="int32"/>
-      <Parameter value="1" type="int32"/>
-      <Parameter value="1" type="int32"/>
-      <Parameter value="2" type="int32"/>
-      <Parameter value="1000" type="int32"/>
-      <Parameter value="1000" type="int32"/>
-      <Parameter value="1000" type="int32"/>
-      <Parameter value="1000" type="int32"/>
-      <Parameter value="0.1" type="float32"/>
-      <Parameter value="0.1" type="float32"/>
+      <Parameter value="100000" type="int32"/>  <!--base_period-->
+      <Parameter value="3" type="int32"/>       <!--reduction_core_count-->
+      <Parameter value="1" type="int32"/>       <!--time_core_count-->
+      
+      <Parameter value="0.9" type="float32"/>   <!--mdl_inertia_sr_thr-->
+      <Parameter value="10" type="int32"/>      <!--mdl_inertia_cnt_thr-->
+      <Parameter value="0.1" type="float32"/>   <!--tpx_dsr_thr-->
+      <Parameter value="25000" type="int32"/>   <!--min_sim_time_horizon-->
+      <Parameter value="100000" type="int32"/>  <!--max_sim_time_horizon-->
+      <Parameter value="0.3" type="float32"/>   <!--sim_time_horizon-->
+      <Parameter value="500000" type="int32"/>  <!--tpx_time_horizon-->
+      <Parameter value="250000" type="int32"/>  <!--perf_sampling_period-->
+      <Parameter value="0.1" type="float32"/>   <!--float_tolerance-->
+      <Parameter value="10000" type="float32"/> <!--time_tolerance-->
+
+      <Parameter value="1" type="int32"/>       <!--debug-->
+      <Parameter value="2000" type="int32"/>    <!--ntf_mk_res-->
+      <Parameter value="1000" type="int32"/>    <!--goal_pred_success_res-->
+      
+      <Parameter value="2" type="int32"/>       <!--probe_level-->
     </Parameters>
 		<Projection space="space1" activation_level="1">
 			<Subscription message_class="SystemReady"/>
@@ -50,7 +99,7 @@
 		</Projection>
   </Module>
 	<!--GENERAL REMARKS-->
-	<!--0	all nodes have the exact same application config file-->
+	<!--0	all nodes have the EXACT same application config file-->
 	<!--1	no circular references (in projections)-->
 	<!--2	inclusion of external definitions via path to the xml node;-->
 	<!--	ex: <Module import="fileName.xml::mainNode.subNode.node"/>-->

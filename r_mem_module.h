@@ -45,16 +45,30 @@ MODULE_CLASS_BEGIN(RMem,Module<RMem>)
 private:
 	std::string	source_code_path;
 
+	// Init section.
 	uint32	base_period;
-	uint16	reduction_core_count;
-	uint16	time_core_count;
-	uint32	probe_level;
-	uint16	notification_resilience;
-	uint32	goal_resilience;
-	uint32	asmp_resilience;
-	uint32	sim_resilience;
+	uint32	reduction_core_count;
+	uint32	time_core_count;
+
+	// System section.
+	float32	mdl_inertia_sr_thr;
+	uint32	mdl_inertia_cnt_thr;
+	float32	tpx_dsr_thr;
+	uint32	min_sim_time_horizon;
+	uint32	max_sim_time_horizon;
+	float32	sim_time_horizon;
+	uint32	tpx_time_horizon;
+	uint32	perf_sampling_period;
 	float32	float_tolerance;
-	float32	time_tolerance;
+	uint32	time_tolerance;
+
+	// Debug section.
+	bool	debug;
+	uint32	ntf_mk_res;
+	uint32	goal_pred_success_res;
+	
+	// Run section.
+	uint32	probe_level;
 	
 	r_comp::Decompiler	decompiler;
 	DMem				*mem;
@@ -72,18 +86,31 @@ private:
 public:
 	void	loadParameters(const	std::vector<word32>	&numbers,const	std::vector<std::string>	&strings){
 		source_code_path=strings[0];
+
 		base_period=numbers[0];
 		reduction_core_count=numbers[1];
 		time_core_count=numbers[2];
-		probe_level=numbers[3];
-		notification_resilience=numbers[4];
-		goal_resilience=numbers[5];
-		asmp_resilience=numbers[6];
-		sim_resilience=numbers[7];
-		uint32	f=numbers[8];
+
+		uint32	f=numbers[3];
+		mdl_inertia_sr_thr=*reinterpret_cast<float32	*>(&f);
+		mdl_inertia_cnt_thr=numbers[4];
+		f=numbers[5];
+		tpx_dsr_thr=*reinterpret_cast<float32	*>(&f);
+		min_sim_time_horizon=numbers[6];
+		max_sim_time_horizon=numbers[7];
+		f=numbers[8];
+		sim_time_horizon=*reinterpret_cast<float32	*>(&f);
+		tpx_time_horizon=numbers[9];
+		perf_sampling_period=numbers[10];
+		f=numbers[11];
 		float_tolerance=*reinterpret_cast<float32	*>(&f);
-		f=numbers[9];
-		time_tolerance=*reinterpret_cast<float32	*>(&f);
+		time_tolerance=numbers[12];
+
+		debug=numbers[13]>0?true:false;
+		ntf_mk_res=numbers[14];
+		goal_pred_success_res=numbers[15];
+
+		probe_level=numbers[16];
 	}
 	void	start(){
 		int32	err=initialize();
@@ -105,6 +132,20 @@ public:
 		OUTPUT<<"RMem "<<"got SysReady"<<std::endl;
 
 		//NODE->subscribeMessage(this,Module<RMem>::CID(),0,1,CLASS_ID(StartMem));
+/*
+		starting_time=mem->start();
+
+		Thread::Sleep(1000);
+
+		image=mem->get_image();
+
+		OUTPUT<<"\nShutting rMem down...\n";
+
+		mem->stop();
+
+		decompile(decompiler,image,starting_time);
+		
+		delete	image;*/
 	}
 	void	react(StartMem	*p){
 		OUTPUT<<"RMem "<<"got StartMem"<<std::endl;
@@ -114,11 +155,10 @@ public:
 		NODE->send(this,new	MemReady(),N::PRIMARY);
 	}
 	void	react(StopMem	*p){
-		mem->suspend();
 		image=mem->get_image();
-		mem->resume();
 
 		OUTPUT<<"\nShutting rMem down...\n";
+
 		mem->stop();
 
 		decompile(decompiler,image,starting_time);
@@ -140,7 +180,6 @@ public:
 		mem->inject(sample->get_code(mem),sample->senderNodeID());
 	}
 	void	react(Sample_Vec3	*sample){
-		
 		//sample->trace();
 		mem->inject(sample->get_code(mem),sample->senderNodeID());
 	}

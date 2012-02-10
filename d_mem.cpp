@@ -64,7 +64,7 @@ void	DMem::eject(Code	*command){
 		uint16	args_set_index=command->code(CMD_ARGS).asIndex();
 
 		uint16	hand_index=args_set_index+1;
-		move_to->OID=command->get_reference(command->code(hand_index).asIndex())->getOID();
+		move_to->OID=command->get_reference(command->code(hand_index).asIndex())->get_oid();
 
 		uint16	target_position_index=command->code(args_set_index+2).asIndex();
 		move_to->target_position[0]=command->code(target_position_index+1).asFloat();
@@ -81,7 +81,7 @@ void	DMem::eject(Code	*command){
 		uint16	args_set_index=command->code(CMD_ARGS).asIndex();
 
 		uint16	hand_index=args_set_index+1;
-		grab_hand->OID=command->get_reference(command->code(hand_index).asIndex())->getOID();
+		grab_hand->OID=command->get_reference(command->code(hand_index).asIndex())->get_oid();
 
 		uint16	deadline_index=args_set_index+2;
 		grab_hand->deadline=Utils::GetTimestamp<Code>(command,deadline_index);
@@ -93,7 +93,7 @@ void	DMem::eject(Code	*command){
 		uint16	args_set_index=command->code(CMD_ARGS).asIndex();
 
 		uint16	hand_index=args_set_index+1;
-		release_hand->OID=command->get_reference(command->code(hand_index).asIndex())->getOID();
+		release_hand->OID=command->get_reference(command->code(hand_index).asIndex())->get_oid();
 
 		uint16	deadline_index=args_set_index+2;
 		release_hand->deadline=Utils::GetTimestamp<Code>(command,deadline_index);
@@ -105,7 +105,7 @@ void	DMem::eject(Code	*command){
 		uint16	args_set_index=command->code(CMD_ARGS).asIndex();
 
 		uint16	hand_index=args_set_index+1;
-		point_at->OID=command->get_reference(command->code(hand_index).asIndex())->getOID();
+		point_at->OID=command->get_reference(command->code(hand_index).asIndex())->get_oid();
 
 		uint16	target_position_index=command->code(args_set_index+2).asIndex();
 		point_at->target_position[0]=command->code(target_position_index+1).asFloat();
@@ -148,7 +148,7 @@ void	DMem::inject(Code	*object,uint8	nodeID){
 	((_Mem	*)this)->inject(view);
 
 	//	Inject a fact.
-	Code	*fact=r_exec::factory::Object::Fact(object,now,1,1);
+	Code	*fact=new	r_exec::Fact(object,now,now,1,1);
 
 	//	Build a default view for the fact.
 	view=build_view(now,nodeID);
@@ -174,7 +174,7 @@ Code	*DMem::get_object(uint32	OID,uint8	NID){
 
 void	DMem::add_entity_map_entry(Code	*entity){
 
-	entity_map[entity->getOID()]=entity;
+	entity_map[entity->get_oid()]=entity;
 }
 
 r_exec::View	*DMem::build_view(uint64	time,uint8	nodeID)	const{
