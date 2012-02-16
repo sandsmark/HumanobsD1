@@ -137,7 +137,7 @@ void	DMem::inject(Code	*object,uint8	nodeID){
 
 	//object->trace();
 
-	uint32	now=r_exec::Now();
+	uint64	now=r_exec::Now();
 
 	//	Build a default view for the incoming object.
 	r_exec::View	*view=build_view(now,nodeID);

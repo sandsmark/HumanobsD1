@@ -61,16 +61,16 @@ thread_ret thread_function_call	SampleIO::Sample(void	*args){
 		s0->object=cup_OID;
 		s0->attribute=position_OID;
 		s0->value[0]=0.1+delta;
-		s0->value[0]=0.2+delta;
-		s0->value[0]=0.3+delta;
+		s0->value[1]=0.2+delta;
+		s0->value[2]=0.3+delta;
 		NODE->send(_this,s0,N::PRIMARY);
 
 		Sample_Vec3	*s1=new	Sample_Vec3();
 		s1->object=hand_OID;
 		s1->attribute=position_OID;
 		s1->value[0]=0.1+delta;
-		s1->value[0]=0.2+delta;
-		s1->value[0]=0.3+delta;
+		s1->value[1]=0.2+delta;
+		s1->value[2]=0.3+delta;
 		NODE->send(_this,s1,N::PRIMARY);
 
 		delta+=0.1;
