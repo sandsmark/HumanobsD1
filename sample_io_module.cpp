@@ -30,7 +30,7 @@
 
 #include "sample_io_module.h"
 
-#include	"../Replicode/r_code/image.h"
+//#include	"../Replicode/r_code/image.h"
 
 
 LOAD_MODULE(SampleIO)
@@ -47,13 +47,13 @@ thread_ret thread_function_call	SampleIO::Sample(void	*args){
 	object_name="cup";
 	uint32	cup_OID=_this->getOID(object_name);
 
-	object_name="self_hand";
+	object_name="self_right_hand";
 	uint32	hand_OID=_this->getOID(object_name);
 
 	bool	once=true;
 	while(1){
 
-		Thread::Sleep(10);
+		Thread::Sleep(100);
 
 		//	Send an update of the positions of 2 entities.
 

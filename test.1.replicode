@@ -41,4 +41,4 @@ p2:(pgm |[]
    (cmd move_hand [self_right_hand pos now] 1)
 1) |[]
 
-ip2:(ipgm p2 |[] RUN_ONCE 0us SILENT 1) [[SYNC_FRONT now 0 forever stdin nil 1]]
+ip2:(ipgm p2 |[] RUN_ONCE 0us SILENT 1) [[SYNC_FRONT now 0 forever stdin nil 0]]

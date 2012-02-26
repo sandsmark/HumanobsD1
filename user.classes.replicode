@@ -97,6 +97,7 @@ f_self_right_hand_is_a_hand:(fact self_right_hand_is_a_hand 0us MAX_TIME 1 1) [[
 ; (mk.val human2_right_hand essence hand 1) [[SYNC_STATE now 1 forever stdin nil]]
 ; human2_head:(ent 1) [[SYNC_FRONT now 1 forever root nil]]
 ; (mk.val human2_head essence head 1) [[SYNC_STATE now 1 forever stdin nil]]
+cup:(ont 1) [[SYNC_FRONT now 0 forever root nil]]
 
 ; drives; drives are goals whose target fact points to an ontology.
 run:(ont 1) |[]

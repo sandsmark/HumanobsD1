@@ -33,7 +33,7 @@
 
 #include	"integration.h"
 #include	"../mBrane/trunk/Core/module_node.h"
-#include	"../Replicode/r_exec/opcodes.h"
+//#include	"../Replicode/r_exec/opcodes.h"
 
 #define	N		module::Node
 #define	NODE	module::Node::Get()

@@ -1,4 +1,4 @@
-<ApplicationConfiguration user_library="C:\Work\HumanobsD1\Debug\HumanobsD1">
+<ApplicationConfiguration user_library="C:\Work\HumanobsD1\Debug\HumanobsD1.dll">
 
   <Parameters>
     <Parameter value="c:/work/replicode/debug/usr_operators.dll" type="string"/>
@@ -24,7 +24,22 @@
       <Subscription message_class="LookAt"/>
     </Projection>
   </Module>-->
-	<Module class="RMem" name="r_mem" host="local"><!--name optional-->
+  <Module class="SampleIO" name="sample_io" host="local">
+    <Projection space="space1" activation_level="1">
+      <Subscription message_class="SystemReady"/>
+      <Subscription message_class="MemReady"/>
+      <Subscription message_class="OntologyCount"/>
+      <Subscription message_class="OntologyDef"/>
+      <Subscription message_class="Speak"/>
+      <Subscription message_class="MoveTo"/>
+      <Subscription message_class="Grab"/>
+      <Subscription message_class="Release"/>
+      <Subscription message_class="PointAt"/>
+      <Subscription message_class="LookAt"/>
+      <Subscription message_class="Bones"/>
+    </Projection>
+  </Module>
+  <Module class="RMem" name="r_mem" host="local"><!--name optional-->
     <Parameters>
       <!--
        <Load

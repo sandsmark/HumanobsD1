@@ -33,7 +33,6 @@
 
 #include	"integration.h"
 #include	"../mBrane/trunk/Core/module_node.h"
-#include	"../Replicode/r_exec/mem.h"
 #include	"../Replicode/r_comp/decompiler.h"
 
 #define	N		module::Node
@@ -132,20 +131,20 @@ public:
 		OUTPUT<<"RMem "<<"got SysReady"<<std::endl;
 
 		//NODE->subscribeMessage(this,Module<RMem>::CID(),0,1,CLASS_ID(StartMem));
-/*
-		starting_time=mem->start();
 
-		Thread::Sleep(1000);
+		//starting_time=mem->start();
 
-		image=mem->get_image();
+		//Thread::Sleep(1000);
 
-		OUTPUT<<"\nShutting rMem down...\n";
+		//image=mem->get_image();
 
-		mem->stop();
+		//OUTPUT<<"\nShutting rMem down...\n";
 
-		decompile(decompiler,image,starting_time);
+		//mem->stop();
+
+		//decompile(decompiler,image,starting_time);
 		
-		delete	image;*/
+		delete	image;
 	}
 	void	react(StartMem	*p){
 		OUTPUT<<"RMem "<<"got StartMem"<<std::endl;
@@ -167,13 +166,12 @@ public:
 	}
 
 	//	devices -> rMem.
-	/*
-	void	(*actor_speaks)(_Payload	*p);
-	void	(*actor_points_at)(_Payload	*p);
-	void	(*entity_position)(_Payload	*p);
-	void	(*entity_color)(_Payload	*p);
-	void	(*entity_essence)(_Payload	*p);
-	*/
+
+	//void	(*actor_speaks)(_Payload	*p);
+	//void	(*actor_points_at)(_Payload	*p);
+	//void	(*entity_position)(_Payload	*p);
+	//void	(*entity_color)(_Payload	*p);
+	//void	(*entity_essence)(_Payload	*p);
 
 	void	react(Sample_uint32	*sample){		
 		//sample->trace();
@@ -186,6 +184,10 @@ public:
 	void	react(Sample_String255	*sample){
 		//sample->trace();
 		mem->inject(sample->get_code(mem),sample->senderNodeID());
+	}
+	void	react(Sample_float32	*sample){
+		//sample->trace();
+		//mem->inject(sample->get_code(mem),sample->senderNodeID());
 	}
 MODULE_CLASS_END(RMem)
 

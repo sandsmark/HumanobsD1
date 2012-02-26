@@ -194,18 +194,6 @@
 			<File
 				RelativePath=".\loom_module.cpp"
 				>
-			</File>
-			<File
-				RelativePath=".\r_mem_class.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\r_mem_module.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sample_io_module.cpp"
-				>
 				<FileConfiguration
 					Name="Debug|Win32"
 					ExcludedFromBuild="true"
@@ -214,9 +202,27 @@
 						Name="VCCLCompilerTool"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\r_mem_class.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\r_mem_module.cpp"
+				>
 				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\sample_io_module.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
