@@ -48,7 +48,7 @@
         source_file_name="../../V1.2/test.1.replicode"
       />
       <Init
-        base_period="50000"
+        base_period="100000"
         reduction_core_count="3"
         time_core_count="1"
       />
@@ -95,9 +95,9 @@
       <Parameter value="500000" type="int32"/>  <!--tpx_time_horizon-->
       <Parameter value="250000" type="int32"/>  <!--perf_sampling_period-->
       <Parameter value="0.1" type="float32"/>   <!--float_tolerance-->
-      <Parameter value="10000" type="float32"/> <!--time_tolerance-->
+      <Parameter value="10000" type="int32"/>   <!--time_tolerance-->
 
-      <Parameter value="1" type="int32"/>       <!--debug-->
+      <Parameter value="0" type="int32"/>       <!--debug-->
       <Parameter value="2000" type="int32"/>    <!--ntf_mk_res-->
       <Parameter value="1000" type="int32"/>    <!--goal_pred_success_res-->
       

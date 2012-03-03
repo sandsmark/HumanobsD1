@@ -30,13 +30,12 @@
 
 root:(std_grp 0 0 0 0 [nil]) [[SYNC_FRONT now 0 forever nil nil COV_OFF 0]]
 stdout:(std_grp 0 0 0 0 |[]) [[SYNC_FRONT now 0 forever root nil COV_OFF 0]]
-stdin:(std_grp 0 0 0 0 [stdout]) [[SYNC_FRONT now 0 forever root nil COV_OFF 0]]
+stdin:(std_grp 1 0 0 0 [stdout]) [[SYNC_FRONT now 0 forever root nil COV_OFF 0]]
 
 primary:(std_grp 1 0 0 0 |[]) [[SYNC_FRONT now 0 forever root nil COV_OFF 0]]; ensure upr>0.
 secondary:(std_grp 1 0 0 0 |[]) [[SYNC_FRONT now 0 forever root nil COV_OFF 0]]; ensure upr>0.
 grp_pair:(mk.grp_pair primary secondary 1) [[SYNC_FRONT now 0 forever root nil]]
-
-drives:(std_grp 0 0 0 0 |[]) [[SYNC_FRONT now 0 forever primary nil COV_OFF 0]]; visible from primary; holds the drives (goals synchronized on state, drive priority=sln); must ensure that drives::upr > prmary::upr.
+drives:(std_grp 1 0 0 0 [stdout]) [[SYNC_FRONT now 0 forever root nil COV_OFF 0]]; visible from primary; holds the drives (goals synchronized on state, drive priority=sln); must ensure that drives::upr > prmary::upr.
 
 
 ; extensions.
@@ -100,8 +99,4 @@ f_self_right_hand_is_a_hand:(fact self_right_hand_is_a_hand 0us MAX_TIME 1 1) [[
 cup:(ont 1) [[SYNC_FRONT now 0 forever root nil]]
 
 ; drives; drives are goals whose target fact points to an ontology.
-run:(ont 1) |[]
-f_run:(fact run 0us MAX_TIME 1 1) |[]
-run_drive:(goal f_run self 1) |[]
-f_run_drive:(fact run_drive 0us MAX_TIME 1 1) [[SYNC_STATE now 1 forever drives nil]]
-
+run:(ent 1) |[]

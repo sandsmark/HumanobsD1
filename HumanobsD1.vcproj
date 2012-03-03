@@ -123,6 +123,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="..\CoreLibrary;..\r_code;..\r_comp;..\r_exec;..\Core;.."
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;HUMANOBSD1_EXPORTS"
 				ExceptionHandling="0"
 				RuntimeLibrary="2"
@@ -202,6 +203,14 @@
 						Name="VCCLCompilerTool"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\r_mem_class.cpp"
@@ -210,24 +219,10 @@
 			<File
 				RelativePath=".\r_mem_module.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\sample_io_module.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter

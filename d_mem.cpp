@@ -148,6 +148,9 @@ void	DMem::inject(Code	*object,uint8	nodeID){
 	// Inject the view.
 	view->set_object(fact);
 	((_Mem	*)this)->inject(view);
+	uint64	_n=r_exec::Now();
+	std::cout<<"injection time: "<<_n-now<<std::endl;
+	//std::cout<<"views in stdin: "<<((r_exec::Group	*)get_stdin())->other_views.size()<<std::endl;
 }
 
 Code	*DMem::get_object(uint32	OID,uint8	NID){
