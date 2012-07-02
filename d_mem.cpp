@@ -133,14 +133,14 @@ void	DMem::eject(Code	*command){
 	}
 }
 
-void	DMem::inject(Code	*object,uint8	nodeID){
+void	DMem::inject(Code	*object,uint8	nodeID){	// this is application dependent WRT fact->after and fact->before.
 
 	//object->trace();
 
 	uint64	now=r_exec::Now();
 
 	// Build a fact.
-	Code	*fact=new	r_exec::Fact(object,now,now,1,1);
+	Code	*fact=new	r_exec::Fact(object,now,now,1,1);	// caveat: use [now, now+sampling_period[ for enabling learning by CTPX.
 
 	// Build a default view for the fact.
 	r_exec::View	*view=build_view(now,nodeID);
@@ -172,20 +172,20 @@ void	DMem::add_entity_map_entry(Code	*entity){
 	entity_map[entity->get_oid()]=entity;
 }
 
-r_exec::View	*DMem::build_view(uint64	time,uint8	nodeID)	const{
+r_exec::View	*DMem::build_view(uint64	time,uint8	nodeID)	const{	// this is application dependent WRT view->sync.
 
 	r_exec::View	*view=new	r_exec::View();
-	const	uint32	arity=VIEW_ARITY;	//	reminder: opcode not included in the arity.
+	const	uint32	arity=VIEW_ARITY;	// reminder: opcode not included in the arity.
 	uint16	write_index=0;
 	uint16	extent_index=arity+1;
 
 	view->code(VIEW_OPCODE)=Atom::SSet(r_exec::View::ViewOpcode,arity);
-	view->code(VIEW_SYNC)=Atom::Boolean(true);				//	sync on front.
-	view->code(VIEW_IJT)=Atom::IPointer(extent_index);		//	iptr to injection time.
-	view->code(VIEW_SLN)=Atom::Float(1.0);					//	sln.
-	view->code(VIEW_RES)=Atom::Float(1);					//	res is set to 1 upr of the destination group.
-	view->code(VIEW_HOST)=Atom::RPointer(0);				//	stdin/stdout is the only reference.
-	view->code(VIEW_ORG)=Atom::Node(nodeID);				//	org.
+	view->code(VIEW_SYNC)=Atom::Float(View::SYNC_ONCE);		// sync on front.
+	view->code(VIEW_IJT)=Atom::IPointer(extent_index);		// iptr to injection time.
+	view->code(VIEW_SLN)=Atom::Float(1.0);					// sln.
+	view->code(VIEW_RES)=Atom::Float(1);					// res is set to 1 upr of the destination group.
+	view->code(VIEW_HOST)=Atom::RPointer(0);				// stdin/stdout is the only reference.
+	view->code(VIEW_ORG)=Atom::Node(nodeID);				// org.
 
 	Utils::SetTimestamp(&view->code(extent_index),time);
 
