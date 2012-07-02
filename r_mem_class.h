@@ -51,6 +51,10 @@ public:
 class	MemReady:
 public	Message<MemReady,Memory>{
 public:
+	MemReady():Message<MemReady,Memory>(){}
+	MemReady(uint64	starting_time,uint64	sampling_period):Message<MemReady,Memory>(),starting_time(starting_time),sampling_period(sampling_period){}
+	uint64	starting_time;
+	uint64	sampling_period;
 };
 
 class	StopMem:

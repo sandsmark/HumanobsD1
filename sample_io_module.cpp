@@ -35,7 +35,7 @@
 
 LOAD_MODULE(SampleIO)
 
-thread_ret thread_function_call	SampleIO::Sample(void	*args){
+thread_ret thread_function_call	SampleIO::Sample(void	*args){	// started upon reception of the ontology map; send samples in sync with the sampling period.
 
 	SampleIO	*_this=(SampleIO	*)args;
 
@@ -50,12 +50,14 @@ thread_ret thread_function_call	SampleIO::Sample(void	*args){
 	object_name="self_right_hand";
 	uint32	hand_OID=_this->getOID(object_name);
 
-	bool	once=true;
+	uint64	now=Time::Get();
+	uint64	delta_t=(now-_this->reference_time)/1000;
+	Thread::Sleep(delta_t);	// sync with the sampling period.
+
+	//bool	once=true;
 	while(1){
 
-		Thread::Sleep(100);
-
-		//	Send an update of the positions of 2 entities.
+		// Send an update of the positions of 2 entities.
 
 		Sample_Vec3	*s0=new	Sample_Vec3();
 		s0->object=cup_OID;
@@ -74,7 +76,7 @@ thread_ret thread_function_call	SampleIO::Sample(void	*args){
 		NODE->send(_this,s1,N::PRIMARY);
 
 		delta+=0.1;
-
+/*
 		if(once){	//	dynamic entity.
 
 			once=false;
@@ -83,13 +85,17 @@ thread_ret thread_function_call	SampleIO::Sample(void	*args){
 			s2->attribute=position_OID;
 			s2->value=16;
 			NODE->send(_this,s2,N::PRIMARY);
-		}
+		}*/
+		Thread::Sleep(_this->sampling_period);
 	}
 
 	thread_ret_val(0);
 }
 
-void	SampleIO::initialize(){
+void	SampleIO::initialize(uint64	reference_time,uint64	sampling_period){
+
+	this->reference_time=reference_time;
+	this->sampling_period=sampling_period/1000;	// ms.
 }
 
 void	SampleIO::finalize(){

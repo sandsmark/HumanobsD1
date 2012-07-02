@@ -74,6 +74,8 @@ int32	RMem::initialize(){
 					perf_sampling_period,
 					float_tolerance,
 					time_tolerance,
+					primary_thz,
+					secondary_thz,
 					debug,
 					ntf_mk_res,
 					goal_pred_success_res,

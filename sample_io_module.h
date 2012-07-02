@@ -55,7 +55,7 @@ MODULE_CLASS_BEGIN(SampleIO,ThreadedModule<SampleIO>)
 private:
 	static	thread_ret thread_function_call	Sample(void	*args);
 
-	void	initialize();	//	starts the thread.
+	void	initialize(uint64	reference_time,uint64	sampling_period);
 	void	finalize();		//	kills the thread.
 
 	UNORDERED_MAP<std::string,uint32>	entity_map;	//	stores the OIDs assigned by the module to the objects it controls.
@@ -63,6 +63,8 @@ private:
 	void	register_ontology_member(std::string&name,uint32	OID);
 	uint32	getOID(std::string	&name);	//	returns an ontology member's OID.
 
+	uint64	reference_time;
+	uint64	sampling_period;
 	uint32	ontology_count;
 public:
 	void	start(){
@@ -83,7 +85,8 @@ public:
 	}
 	void	react(MemReady	*p){
 		OUTPUT<<"SampleIO "<<"got MemReady"<<std::endl;
-		initialize();
+		initialize(p->starting_time,p->sampling_period);
+		Thread::start(Sample);
 	}
 	void	react(OntologyCount	*p){
 		OUTPUT<<"got ontology count: "<<p->count<<std::endl;
@@ -93,9 +96,6 @@ public:
 		OUTPUT<<"got ontology member: "<<p->name<<std::endl;
 		std::string	name=p->name;
 		register_ontology_member(name,p->OID);
-
-		if(--ontology_count==0)
-			Thread::start(Sample);
 	}
 	void	react(Speak	*p){
 		OUTPUT<<"RMem says: "<<p->word<<std::endl;

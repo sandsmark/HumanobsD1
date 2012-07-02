@@ -60,6 +60,8 @@ private:
 	uint32	perf_sampling_period;
 	float32	float_tolerance;
 	uint32	time_tolerance;
+	uint32	primary_thz;
+	uint32	secondary_thz;
 
 	// Debug section.
 	bool	debug;
@@ -104,12 +106,14 @@ public:
 		f=numbers[11];
 		float_tolerance=*reinterpret_cast<float32	*>(&f);
 		time_tolerance=numbers[12];
+		primary_thz=numbers[13];
+		secondary_thz=numbers[14];
 
-		debug=numbers[13]>0?true:false;
-		ntf_mk_res=numbers[14];
-		goal_pred_success_res=numbers[15];
+		debug=numbers[15]>0?true:false;
+		ntf_mk_res=numbers[16];
+		goal_pred_success_res=numbers[17];
 
-		probe_level=numbers[16];
+		probe_level=numbers[18];
 	}
 	void	start(){
 		int32	err=initialize();
@@ -151,7 +155,7 @@ public:
 		OUTPUT<<"RMem "<<"sending ontology map"<<std::endl;
 		send_ontology_map();
 		starting_time=mem->start();
-		NODE->send(this,new	MemReady(),N::PRIMARY);
+		NODE->send(this,new	MemReady(starting_time,100000),N::PRIMARY);	// TODO: find a way to import constants (here: sampling_period defined in std.replicode) from replicode files.
 	}
 	void	react(StopMem	*p){
 		image=mem->get_image();
