@@ -158,15 +158,16 @@ public:
 		NODE->send(this,new	MemReady(starting_time,100000),N::PRIMARY);	// TODO: find a way to import constants (here: sampling_period defined in std.replicode) from replicode files.
 	}
 	void	react(StopMem	*p){
-		image=mem->get_image();
+		
+		//image=mem->get_objects();
 
 		OUTPUT<<"\nShutting rMem down...\n";
 
 		mem->stop();
 
-		decompile(decompiler,image,starting_time);
+		//decompile(decompiler,image,starting_time);
 		
-		delete	image;
+		//delete	image;
 	}
 
 	//	devices -> rMem.
@@ -182,7 +183,7 @@ public:
 		mem->inject(sample->get_code(mem),sample->senderNodeID());
 	}
 	void	react(Sample_Vec3	*sample){
-		//sample->trace();
+		sample->trace();
 		mem->inject(sample->get_code(mem),sample->senderNodeID());
 	}
 	void	react(Sample_String255	*sample){

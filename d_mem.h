@@ -47,7 +47,7 @@ class	RMem;
 
 //	Distributed rMem.
 class	DMem:
-public	r_exec::Mem<r_exec::LObject>{
+public	r_exec::Mem<r_exec::LObject,r_exec::MemVolatile>{
 private:
 	mBrane::sdk::module::_Module	*module;
 

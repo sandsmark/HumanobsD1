@@ -58,7 +58,7 @@ thread_ret thread_function_call	SampleIO::Sample(void	*args){	// started upon re
 	while(1){
 
 		// Send an update of the positions of 2 entities.
-
+		for(uint32	i=0;i<67;++i){
 		Sample_Vec3	*s0=new	Sample_Vec3();
 		s0->object=cup_OID;
 		s0->attribute=position_OID;
@@ -76,6 +76,7 @@ thread_ret thread_function_call	SampleIO::Sample(void	*args){	// started upon re
 		NODE->send(_this,s1,N::PRIMARY);
 
 		delta+=0.1;
+		}
 /*
 		if(once){	//	dynamic entity.
 

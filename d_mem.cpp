@@ -36,7 +36,7 @@
 #define	NODE	module::Node::Get()
 #define	OUTPUT	NODE->trace(N::APPLICATION)
 
-DMem::DMem(mBrane::sdk::module::_Module	*m):r_exec::Mem<r_exec::LObject>(),module(m){
+DMem::DMem(mBrane::sdk::module::_Module	*m):r_exec::Mem<r_exec::LObject,r_exec::MemVolatile>(),module(m){
 }
 
 void	DMem::eject(View	*view,uint16	nodeID){
@@ -149,7 +149,7 @@ void	DMem::inject(Code	*object,uint8	nodeID){	// this is application dependent W
 	view->set_object(fact);
 	((_Mem	*)this)->inject(view);
 	uint64	_n=r_exec::Now();
-	//std::cout<<"injection time: "<<_n-now<<std::endl;
+	//std::cout<<"time spent for injection: "<<_n-now<<std::endl;
 	//std::cout<<"views in stdin: "<<((r_exec::Group	*)get_stdin())->other_views.size()<<std::endl;
 }
 
