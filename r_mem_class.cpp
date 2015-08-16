@@ -77,8 +77,8 @@
 
 #include	"r_mem_class.h"
 
-#include	"../Replicode/r_exec/object.h"
-#include	"../Replicode/r_exec/init.h"
+#include	<r_exec/object.h>
+#include	<r_exec/init.h>
 
 
 Code	*Sample_Vec3::get_code(DMem *m){

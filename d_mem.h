@@ -78,10 +78,10 @@
 #ifndef	d_mem_h
 #define	d_mem_h
 
-#include	"../mBrane/trunk/Core/module_node.h"
+#include	<Core/module_node.h>
 
-#include	"../Replicode/r_exec/object.h"
-#include	"../Replicode/r_exec/mem.h"
+#include	<r_exec/object.h>
+#include	<r_exec/mem.h>
 
 #ifdef HUMANOBSD1_EXPORTS
 	#define HUMANOBSD1_API __declspec(dllexport)

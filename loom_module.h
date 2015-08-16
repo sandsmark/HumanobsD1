@@ -79,7 +79,7 @@
 #define loom_module_h
 
 #include	"integration.h"
-#include	"../mBrane/trunk/Core/module_node.h"
+#include	<Core/module_node.h>
 
 
 #define	N		module::Node

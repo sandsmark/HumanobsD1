@@ -81,7 +81,7 @@
 #include	"r_mem_class.h"
 #define		APPLICATION_CLASSES	"r_mem_class_def.h"
 
-#include	"../mBrane/trunk/Core/application.h"
+#include	<Core/application.h>
 
 
 extern	"C"{

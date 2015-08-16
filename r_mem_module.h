@@ -79,8 +79,8 @@
 #define r_mem_module_h
 
 #include	"integration.h"
-#include	"../mBrane/trunk/Core/module_node.h"
-#include	"../Replicode/r_comp/decompiler.h"
+#include	<Core/module_node.h>
+#include	<r_comp/decompiler.h>
 
 #define	N		module::Node
 #define	NODE	module::Node::Get()

@@ -79,7 +79,7 @@
 #define sample_io_module_h
 
 #include	"integration.h"
-#include	"../mBrane/trunk/Core/module_node.h"
+#include	<Core/module_node.h>
 //#include	"../Replicode/r_exec/opcodes.h"
 
 #define	N		module::Node

@@ -76,7 +76,7 @@
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
 #include	"integration.h"
-#include	"../Replicode/r_exec/init.h"
+#include	<r_exec/init.h>
 
 
 using	namespace	r_code;
