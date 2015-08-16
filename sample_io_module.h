@@ -102,17 +102,17 @@ MODULE_CLASS_BEGIN(SampleIO,ThreadedModule<SampleIO>)
 private:
 	static	thread_ret thread_function_call	Sample(void	*args);
 
-	void	initialize(uint64	reference_time,uint64	sampling_period);
+	void	initialize(uint64_t	reference_time,uint64_t	sampling_period);
 	void	finalize();		//	kills the thread.
 
-	UNORDERED_MAP<std::string,uint32>	entity_map;	//	stores the OIDs assigned by the module to the objects it controls.
+	UNORDERED_MAP<std::string,uint32_t>	entity_map;	//	stores the OIDs assigned by the module to the objects it controls.
 													//	also stores the OIDs assigned by the rMem to ontology members.
-	void	register_ontology_member(std::string&name,uint32	OID);
-	uint32	getOID(std::string	&name);	//	returns an ontology member's OID.
+	void	register_ontology_member(std::string&name,uint32_t	OID);
+	uint32_t	getOID(std::string	&name);	//	returns an ontology member's OID.
 
-	uint64	reference_time;
-	uint64	sampling_period;
-	uint32	ontology_count;
+	uint64_t	reference_time;
+	uint64_t	sampling_period;
+	uint32_t	ontology_count;
 public:
 	void	start(){
 		OUTPUT<<"SampleIO "<<"started"<<std::endl;

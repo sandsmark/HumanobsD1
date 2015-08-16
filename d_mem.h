@@ -98,20 +98,20 @@ public	r_exec::Mem<r_exec::LObject,r_exec::MemVolatile>{
 private:
 	mBrane::sdk::module::_Module	*module;
 
-	UNORDERED_MAP<uint32,P<Code> >	entity_map;	//	first n objects: left side: OID assigned by rMem, right side: object (ent and ont). n=number of ent and ont objects.
+	UNORDERED_MAP<uint32_t,P<Code> >	entity_map;	//	first n objects: left side: OID assigned by rMem, right side: object (ent and ont). n=number of ent and ont objects.
 												//	from n+1 on: left side: OID assigned by I/O devices (foreign objects, i.e.new entites in the environment), right side: the corresponding replicode object.
 												//	foreign objects are never referred to in commands from rMem.
-	r_exec::View	*build_view(uint64	time,uint8	nodeID)	const;
+	r_exec::View	*build_view(uint64_t	time,uint8_t	nodeID)	const;
 public:
 	DMem(mBrane::sdk::module::_Module	*m);
 
-	void	eject(View	*view,uint16	nodeID);	//	RMem to RMem.
+	void	eject(View	*view,uint16_t	nodeID);	//	RMem to RMem.
 	void	eject(Code	*command);	//	RMem to I/O device.
-	void	inject(Code	*object,uint8	nodeID);
+	void	inject(Code	*object,uint8_t	nodeID);
 
 	void	add_entity_map_entry(Code	*entity);	//	called for each axiomatic entity.
 
-	Code	*get_object(uint32	OID,uint8	NID);	//	creates a new entity if the OID is not found.
+	Code	*get_object(uint32_t	OID,uint8_t	NID);	//	creates a new entity if the OID is not found.
 };
 
 

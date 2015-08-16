@@ -98,9 +98,9 @@ class	MemReady:
 public	Message<MemReady,Memory>{
 public:
 	MemReady():Message<MemReady,Memory>(){}
-	MemReady(uint64	starting_time,uint64	sampling_period):Message<MemReady,Memory>(),starting_time(starting_time),sampling_period(sampling_period){}
-	uint64	starting_time;
-	uint64	sampling_period;
+	MemReady(uint64_t	starting_time,uint64_t	sampling_period):Message<MemReady,Memory>(),starting_time(starting_time),sampling_period(sampling_period){}
+	uint64_t	starting_time;
+	uint64_t	sampling_period;
 };
 
 class	StopMem:
@@ -115,13 +115,13 @@ typedef	float32	Vec3[3];
 typedef	float32	Vec4[4];
 
 //	Translates to (mk.val object attribute value).
-//	Object and attribute are identified by their OID (uint32)
-//	Value is either: uint32 (an object's ID), uint64 (a timestamp), bool, float32, String255, Vec3, etc.
+//	Object and attribute are identified by their OID (uint32_t)
+//	Value is either: uint32_t (an object's ID), uint64_t (a timestamp), bool, float32, String255, Vec3, etc.
 template<class	U>	class	Sample:
 public	Message<U,Memory>{
 public:
-	uint32	object;
-	uint32	attribute;
+	uint32_t	object;
+	uint32_t	attribute;
 	virtual	void	trace(){	std::cout<<"object: "<<object<<" attr: "<<attribute<<" ";	}
 };
 
@@ -133,12 +133,12 @@ public:
 	void	trace(){	Sample<Sample_Vec3>::trace(); std::cout<<"vec3: "<<value[0]<<" "<<value[1]<<" "<<value[2]<<std::endl;	}
 };
 
-class	Sample_uint32:
-public	Sample<Sample_uint32>{
+class	Sample_uint32_t:
+public	Sample<Sample_uint32_t>{
 public:
-	uint32	value;
+	uint32_t	value;
 	Code	*get_code(DMem	*m);
-	void	trace(){	Sample<Sample_uint32>::trace(); std::cout<<"val: "<<value<<std::endl;	}
+	void	trace(){	Sample<Sample_uint32_t>::trace(); std::cout<<"val: "<<value<<std::endl;	}
 };
 
 class	Sample_float32:
@@ -164,18 +164,18 @@ public:
 class	OntologyCount:
 public	Message<OntologyCount,Memory>{
 public:
-	uint32	count;
+	uint32_t	count;
 	OntologyCount(){}
-	OntologyCount(uint32	count):Message<OntologyCount,Memory>(),count(count){}
+	OntologyCount(uint32_t	count):Message<OntologyCount,Memory>(),count(count){}
 };
 
 class	OntologyDef:
 public	Message<OntologyDef,Memory>{
 public:
 	String255	name;
-	uint32		OID;
+	uint32_t		OID;
 	OntologyDef(){}
-	OntologyDef(std::string	&name,uint32	OID):Message<OntologyDef,Memory>(),OID(OID){
+	OntologyDef(std::string	&name,uint32_t	OID):Message<OntologyDef,Memory>(),OID(OID){
 		memcpy(this->name,name.c_str(),name.length()*sizeof(char));
 	}
 };
@@ -186,7 +186,7 @@ public:
 template<class	U>	class	Command:
 public	Message<U,Memory>{
 public:
-	uint64	deadline;	//	o means asap.
+	uint64_t	deadline;	//	o means asap.
 };
 
 class Speak:
@@ -198,27 +198,27 @@ public:
 class	MoveTo:
 public	Command<MoveTo>{
 public:
-	uint32	OID;	//	of one hand.
+	uint32_t	OID;	//	of one hand.
 	Vec3	target_position;
 };
 
 class	PointAt:
 public	Command<PointAt>{
 public:
-	uint32	OID;	//	of one hand.
+	uint32_t	OID;	//	of one hand.
 	Vec3	target_position;
 };
 
 class	Grab:
 public	Command<Grab>{
 public:
-	uint32	OID;	//	of one hand.
+	uint32_t	OID;	//	of one hand.
 };
 
 class	Release:
 public	Command<Release>{
 public:
-	uint32	OID;	//	of one hand.
+	uint32_t	OID;	//	of one hand.
 };
 
 class	LookAt:
@@ -233,8 +233,8 @@ public:
 	Bones() {}
 	Vec3	Positions[32];
 	Vec4	Orientations[32];
-	uint32  NumBones;
-	uint32  Id;
+	uint32_t  NumBones;
+	uint32_t  Id;
 };
 
 

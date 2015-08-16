@@ -128,7 +128,7 @@ public:
 		if(output_to_devices)
 			output_to_devices(p);
 
-		uint16 vId = StartMem::CID();
+		uint16_t vId = StartMem::CID();
 		NODE->send(this,new	StartMem(),N::PRIMARY);
 
 		//	for testing.

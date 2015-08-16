@@ -92,43 +92,43 @@ private:
 	std::string	source_code_path;
 
 	// Init section.
-	uint32	base_period;
-	uint32	reduction_core_count;
-	uint32	time_core_count;
+	uint32_t	base_period;
+	uint32_t	reduction_core_count;
+	uint32_t	time_core_count;
 
 	// System section.
 	float32	mdl_inertia_sr_thr;
-	uint32	mdl_inertia_cnt_thr;
+	uint32_t	mdl_inertia_cnt_thr;
 	float32	tpx_dsr_thr;
-	uint32	min_sim_time_horizon;
-	uint32	max_sim_time_horizon;
+	uint32_t	min_sim_time_horizon;
+	uint32_t	max_sim_time_horizon;
 	float32	sim_time_horizon;
-	uint32	tpx_time_horizon;
-	uint32	perf_sampling_period;
+	uint32_t	tpx_time_horizon;
+	uint32_t	perf_sampling_period;
 	float32	float_tolerance;
-	uint32	time_tolerance;
-	uint32	primary_thz;
-	uint32	secondary_thz;
+	uint32_t	time_tolerance;
+	uint32_t	primary_thz;
+	uint32_t	secondary_thz;
 
 	// Debug section.
 	bool	debug;
-	uint32	ntf_mk_res;
-	uint32	goal_pred_success_res;
+	uint32_t	ntf_mk_res;
+	uint32_t	goal_pred_success_res;
 	
 	// Run section.
-	uint32	probe_level;
+	uint32_t	probe_level;
 	
 	r_comp::Decompiler	decompiler;
 	DMem				*mem;
 
-	uint64							starting_time;
+	uint64_t							starting_time;
 	r_comp::Image					*image;
 	r_code::vector<r_code::Code	*>	ram_objects;
 
-	int32	initialize();
+	int32_t	initialize();
 	void	finalize();
 
-	void	decompile(r_comp::Decompiler	&decompiler,r_comp::Image	*image,uint64	time_offset);
+	void	decompile(r_comp::Decompiler	&decompiler,r_comp::Image	*image,uint64_t	time_offset);
 
 	void	send_ontology_map();
 public:
@@ -139,7 +139,7 @@ public:
 		reduction_core_count=numbers[1];
 		time_core_count=numbers[2];
 
-		uint32	f=numbers[3];
+		uint32_t	f=numbers[3];
 		mdl_inertia_sr_thr=*reinterpret_cast<float32	*>(&f);
 		mdl_inertia_cnt_thr=numbers[4];
 		f=numbers[5];
@@ -163,7 +163,7 @@ public:
 		probe_level=numbers[18];
 	}
 	void	start(){
-		int32	err=initialize();
+		int32_t	err=initialize();
 		OUTPUT<<"RMem "<<"got started"<<std::endl;
 		if(err)
 			OUTPUT<<"Error in rMem::initialize()\n";
@@ -225,7 +225,7 @@ public:
 	//void	(*entity_color)(_Payload	*p);
 	//void	(*entity_essence)(_Payload	*p);
 
-	void	react(Sample_uint32	*sample){		
+	void	react(Sample_uint32_t	*sample){		
 		//sample->trace();
 		mem->inject(sample->get_code(mem),sample->senderNodeID());
 	}
