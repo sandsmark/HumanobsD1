@@ -84,7 +84,7 @@ thread_ret thread_function_call	SampleIO::Sample(void	*args){	// started upon re
 
 	SampleIO	*_this=(SampleIO	*)args;
 
-	float32	delta=0.1;
+	float	delta=0.1;
 
 	std::string	object_name="position";
 	uint32	position_OID=_this->getOID(object_name);
@@ -126,7 +126,7 @@ thread_ret thread_function_call	SampleIO::Sample(void	*args){	// started upon re
 		if(once){	//	dynamic entity.
 
 			once=false;
-			Sample_float32	*s2=new	Sample_float32();
+			Sample_float	*s2=new	Sample_float();
 			s2->object=1001;	//	new entity created by the I/O module.
 			s2->attribute=position_OID;
 			s2->value=16;

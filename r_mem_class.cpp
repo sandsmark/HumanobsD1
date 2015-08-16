@@ -114,7 +114,7 @@ Code	*Sample_uint32::get_code(DMem *m){
 	return	object;
 }
 
-Code	*Sample_float32::get_code(DMem *m){
+Code	*Sample_float::get_code(DMem *m){
 
 	Code	*object=new	r_exec::LObject(m);
 	object->code(0)=Atom::Marker(r_exec::GetOpcode("mk.val"),4);	//	Caveat: arity does not include the opcode.

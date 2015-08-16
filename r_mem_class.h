@@ -109,12 +109,12 @@ public:
 ////	I/O -> rMem		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef	char	String255[255];
-typedef	float32	Vec3[3];
-typedef	float32	Vec4[4];
+typedef	float	Vec3[3];
+typedef	float	Vec4[4];
 
 //	Translates to (mk.val object attribute value).
 //	Object and attribute are identified by their OID (uint32_t)
-//	Value is either: uint32_t (an object's ID), uint64_t (a timestamp), bool, float32, String255, Vec3, etc.
+//	Value is either: uint32_t (an object's ID), uint64_t (a timestamp), bool, float, String255, Vec3, etc.
 template<class	U>	class	Sample:
 public	Message<U,Memory>{
 public:
@@ -139,10 +139,10 @@ public:
 	void	trace(){	Sample<Sample_uint32_t>::trace(); std::cout<<"val: "<<value<<std::endl;	}
 };
 
-class	Sample_float32:
-public	Sample<Sample_float32>{
+class	Sample_float:
+public	Sample<Sample_float>{
 public:
-	float32	value;
+	float	value;
 	Code	*get_code(DMem	*m);
 };
 

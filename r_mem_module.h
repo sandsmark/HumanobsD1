@@ -95,15 +95,15 @@ private:
 	uint32_t	time_core_count;
 
 	// System section.
-	float32	mdl_inertia_sr_thr;
+	float	mdl_inertia_sr_thr;
 	uint32_t	mdl_inertia_cnt_thr;
-	float32	tpx_dsr_thr;
+	float	tpx_dsr_thr;
 	uint32_t	min_sim_time_horizon;
 	uint32_t	max_sim_time_horizon;
-	float32	sim_time_horizon;
+	float	sim_time_horizon;
 	uint32_t	tpx_time_horizon;
 	uint32_t	perf_sampling_period;
-	float32	float_tolerance;
+	float	float_tolerance;
 	uint32_t	time_tolerance;
 	uint32_t	primary_thz;
 	uint32_t	secondary_thz;
@@ -138,18 +138,18 @@ public:
 		time_core_count=numbers[2];
 
 		uint32_t	f=numbers[3];
-		mdl_inertia_sr_thr=*reinterpret_cast<float32	*>(&f);
+		mdl_inertia_sr_thr=*reinterpret_cast<float	*>(&f);
 		mdl_inertia_cnt_thr=numbers[4];
 		f=numbers[5];
-		tpx_dsr_thr=*reinterpret_cast<float32	*>(&f);
+		tpx_dsr_thr=*reinterpret_cast<float	*>(&f);
 		min_sim_time_horizon=numbers[6];
 		max_sim_time_horizon=numbers[7];
 		f=numbers[8];
-		sim_time_horizon=*reinterpret_cast<float32	*>(&f);
+		sim_time_horizon=*reinterpret_cast<float	*>(&f);
 		tpx_time_horizon=numbers[9];
 		perf_sampling_period=numbers[10];
 		f=numbers[11];
-		float_tolerance=*reinterpret_cast<float32	*>(&f);
+		float_tolerance=*reinterpret_cast<float	*>(&f);
 		time_tolerance=numbers[12];
 		primary_thz=numbers[13];
 		secondary_thz=numbers[14];
@@ -235,7 +235,7 @@ public:
 		//sample->trace();
 		mem->inject(sample->get_code(mem),sample->senderNodeID());
 	}
-	void	react(Sample_float32	*sample){
+	void	react(Sample_float	*sample){
 		//sample->trace();
 		//mem->inject(sample->get_code(mem),sample->senderNodeID());
 	}
