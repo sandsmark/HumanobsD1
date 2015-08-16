@@ -77,17 +77,18 @@
 
 #include	<r_exec/object.h>
 #include	<r_exec/init.h>
+#include <r_comp/class_register.h>
 
 
 Code	*Sample_Vec3::get_code(DMem *m){
 
 	Code	*object=new	r_exec::LObject(m);
-	object->code(0)=Atom::Marker(r_exec::GetOpcode("mk.val"),4);	//	Caveat: arity does not include the opcode.
+    object->code(0)=Atom::Marker(r_comp::ClassRegister::GetOpcode("mk.val"),4);	//	Caveat: arity does not include the opcode.
 	object->code(1)=Atom::RPointer(0);
 	object->code(2)=Atom::RPointer(1);
 	object->code(3)=Atom::IPointer(5);	//	points to the vector.
 	object->code(4)=Atom::Float(1);		//	psln_thr.
-	object->code(5)=Atom::Object(r_exec::GetOpcode("vec3"),3);	//	Caveat: arity does not include the opcode.
+    object->code(5)=Atom::Object(r_comp::ClassRegister::GetOpcode("vec3"),3);	//	Caveat: arity does not include the opcode.
 	object->code(6)=Atom::Float(this->value[0]);
 	object->code(7)=Atom::Float(this->value[1]);
 	object->code(8)=Atom::Float(this->value[2]);
@@ -101,7 +102,7 @@ Code	*Sample_Vec3::get_code(DMem *m){
 Code	*Sample_uint32::get_code(DMem *m){
 
 	Code	*object=new	r_exec::LObject(m);
-	object->code(0)=Atom::Marker(r_exec::GetOpcode("mk.val"),4);	//	Caveat: arity does not include the opcode.
+    object->code(0)=Atom::Marker(r_comp::ClassRegister::GetOpcode("mk.val"),4);	//	Caveat: arity does not include the opcode.
 	object->code(1)=Atom::RPointer(0);
 	object->code(2)=Atom::RPointer(1);
 	object->code(3)=Atom::RPointer(2);
@@ -117,7 +118,7 @@ Code	*Sample_uint32::get_code(DMem *m){
 Code	*Sample_float::get_code(DMem *m){
 
 	Code	*object=new	r_exec::LObject(m);
-	object->code(0)=Atom::Marker(r_exec::GetOpcode("mk.val"),4);	//	Caveat: arity does not include the opcode.
+    object->code(0)=Atom::Marker(r_comp::ClassRegister::GetOpcode("mk.val"),4);	//	Caveat: arity does not include the opcode.
 	object->code(1)=Atom::RPointer(0);
 	object->code(2)=Atom::RPointer(1);
 	object->code(3)=Atom::Float(this->value);
@@ -132,7 +133,7 @@ Code	*Sample_float::get_code(DMem *m){
 Code	*Sample_String255::get_code(DMem *m){
 
 	Code	*object=new	r_exec::LObject(m);
-	object->code(0)=Atom::Marker(r_exec::GetOpcode("mk.val"),4);	//	Caveat: arity does not include the opcode.
+    object->code(0)=Atom::Marker(r_comp::ClassRegister::GetOpcode("mk.val"),4);	//	Caveat: arity does not include the opcode.
 	object->code(1)=Atom::RPointer(0);
 	object->code(2)=Atom::RPointer(1);
 	object->code(3)=Atom::IPointer(5);	//	points to the string.

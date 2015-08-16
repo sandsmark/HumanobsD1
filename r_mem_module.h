@@ -106,7 +106,8 @@ private:
 	float	float_tolerance;
 	uint32_t	time_tolerance;
 	uint32_t	primary_thz;
-	uint32_t	secondary_thz;
+    uint32_t	secondary_thz;
+    uint32_t trace_levels;
 
 	// Debug section.
 	bool	debug;
@@ -121,6 +122,7 @@ private:
 
 	uint64_t							starting_time;
 	r_comp::Image					*image;
+    r_comp::Metadata                *metadata;
 	r_code::vector<r_code::Code	*>	ram_objects;
 
 	int32_t	initialize();
@@ -159,6 +161,7 @@ public:
 		goal_pred_success_res=numbers[17];
 
 		probe_level=numbers[18];
+        trace_levels = 0;
 	}
 	void	start(){
 		int32_t	err=initialize();
@@ -192,7 +195,7 @@ public:
 		//mem->stop();
 
 		//decompile(decompiler,image,starting_time);
-		
+        delete metadata;
 		delete	image;
 	}
 	void	react(StartMem	*p){
@@ -223,7 +226,7 @@ public:
 	//void	(*entity_color)(_Payload	*p);
 	//void	(*entity_essence)(_Payload	*p);
 
-	void	react(Sample_uint32_t	*sample){		
+    void	react(Sample_uint32	*sample){
 		//sample->trace();
 		mem->inject(sample->get_code(mem),sample->senderNodeID());
 	}

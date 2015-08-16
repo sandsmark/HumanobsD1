@@ -75,6 +75,7 @@
 
 #include	"d_mem.h"
 #include	"r_mem_class.h"
+#include <r_comp/class_register.h>
 
 
 #define	N		module::Node
@@ -90,7 +91,7 @@ void	DMem::eject(View	*view,uint16	nodeID){
 void	DMem::eject(Code	*command){
 	
 	uint16	function=(command->code(CMD_FUNCTION).atom>>8)	&	0x000000FF;
-	if(function==r_exec::GetOpcode("speak")){
+    if(function==r_comp::ClassRegister::GetOpcode("speak")){
 
 		Speak	*speak=new	Speak();
 		uint16	args_set_index=command->code(CMD_ARGS).asIndex();
@@ -103,7 +104,7 @@ void	DMem::eject(Code	*command){
 		speak->deadline=Utils::GetTimestamp<Code>(command,deadline_index);
 
 		NODE->send(module,speak,N::PRIMARY);
-	}else	if(function==r_exec::GetOpcode("move_hand")){
+    }else	if(function==r_comp::ClassRegister::GetOpcode("move_hand")){
 
 		MoveTo	*move_to=new	MoveTo();
 		uint16	args_set_index=command->code(CMD_ARGS).asIndex();
@@ -120,7 +121,7 @@ void	DMem::eject(Code	*command){
 		move_to->deadline=Utils::GetTimestamp<Code>(command,deadline_index);
 
 		NODE->send(module,move_to,N::PRIMARY);
-	}else	if(function==r_exec::GetOpcode("grab_hand")){
+    }else	if(function==r_comp::ClassRegister::GetOpcode("grab_hand")){
 
 		Grab	*grab_hand=new	Grab();
 		uint16	args_set_index=command->code(CMD_ARGS).asIndex();
@@ -132,7 +133,7 @@ void	DMem::eject(Code	*command){
 		grab_hand->deadline=Utils::GetTimestamp<Code>(command,deadline_index);
 
 		NODE->send(module,grab_hand,N::PRIMARY);
-	}else	if(function==r_exec::GetOpcode("release_hand")){
+    }else	if(function==r_comp::ClassRegister::GetOpcode("release_hand")){
 
 		Release	*release_hand=new	Release();
 		uint16	args_set_index=command->code(CMD_ARGS).asIndex();
@@ -144,7 +145,7 @@ void	DMem::eject(Code	*command){
 		release_hand->deadline=Utils::GetTimestamp<Code>(command,deadline_index);
 
 		NODE->send(module,release_hand,N::PRIMARY);
-	}else	if(function==r_exec::GetOpcode("point_at")){
+    }else	if(function==r_comp::ClassRegister::GetOpcode("point_at")){
 
 		PointAt	*point_at=new	PointAt();
 		uint16	args_set_index=command->code(CMD_ARGS).asIndex();
@@ -161,7 +162,7 @@ void	DMem::eject(Code	*command){
 		point_at->deadline=Utils::GetTimestamp<Code>(command,deadline_index);
 
 		NODE->send(module,point_at,N::PRIMARY);
-	}else	if(function==r_exec::GetOpcode("look_at")){
+    }else	if(function==r_comp::ClassRegister::GetOpcode("look_at")){
 
 		LookAt	*look_at=new	LookAt();
 		uint16	args_set_index=command->code(CMD_ARGS).asIndex();
@@ -205,7 +206,7 @@ Code	*DMem::get_object(uint32	OID,uint8	NID){
 		return	o->second;
 
 	r_exec::LObject	*new_entity=new	r_exec::LObject();	//	OID=0xFFFF. Object not injected, thus not registered. Held only by entity_map and any referring object in mem.
-	new_entity->code(0)=Atom::Object(r_exec::GetOpcode("ent"),1);
+    new_entity->code(0)=Atom::Object(r_comp::ClassRegister::GetOpcode("ent"),1);
 	new_entity->code(1)=Atom::Float(1);
 	inject(new_entity,NID);
 	entity_map[OID]=new_entity;

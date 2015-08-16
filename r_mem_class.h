@@ -131,12 +131,12 @@ public:
 	void	trace(){	Sample<Sample_Vec3>::trace(); std::cout<<"vec3: "<<value[0]<<" "<<value[1]<<" "<<value[2]<<std::endl;	}
 };
 
-class	Sample_uint32_t:
-public	Sample<Sample_uint32_t>{
+class	Sample_uint32:
+public	Sample<Sample_uint32>{
 public:
 	uint32_t	value;
 	Code	*get_code(DMem	*m);
-	void	trace(){	Sample<Sample_uint32_t>::trace(); std::cout<<"val: "<<value<<std::endl;	}
+    void	trace(){	Sample<Sample_uint32>::trace(); std::cout<<"val: "<<value<<std::endl;	}
 };
 
 class	Sample_float:

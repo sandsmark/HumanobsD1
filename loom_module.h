@@ -211,7 +211,8 @@ public:
 	void on_heard( const char *iText )
 	{
 		Sample_String255 *vText = new Sample_String255;
-		strncpy_s( vText->value, 255, iText, 255 );
+        memset(vText->value, 0, 255);
+        strncpy( vText->value, iText, 254 );
 		NODE->send( this, vText, N::PRIMARY );
 	}
 

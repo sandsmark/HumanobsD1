@@ -75,7 +75,10 @@
 
 #include	"integration.h"
 #include	<r_exec/init.h>
+#include <r_comp/segments.h>
 
+r_comp::Metadata *metadata = nullptr;
+r_comp::Image *image = nullptr;
 
 using	namespace	r_code;
 
@@ -87,7 +90,13 @@ void	Init(const	std::vector<word32>	&numbers,const	std::vector<std::string>	&str
 
 	srand(_Now());
 
-	if(!r_exec::Init(strings[0].c_str(),_Now,strings[1].c_str()))
+    if (!image) {
+        image = new r_comp::Image;
+    }
+    if (!metadata) {
+        metadata = new r_comp::Metadata;
+    }
+    if(!r_exec::Init(strings[0].c_str(),_Now,strings[1].c_str(), image, metadata))
 		return;
 
 	std::cout<<"integration library loaded"<<std::endl;

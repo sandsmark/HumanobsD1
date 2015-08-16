@@ -80,7 +80,7 @@
 
 LOAD_MODULE(SampleIO)
 
-thread_ret thread_function_call	SampleIO::Sample(void	*args){	// started upon reception of the ontology map; send samples in sync with the sampling period.
+void SampleIO::Sample(void	*args){	// started upon reception of the ontology map; send samples in sync with the sampling period.
 
 	SampleIO	*_this=(SampleIO	*)args;
 
@@ -133,9 +133,7 @@ thread_ret thread_function_call	SampleIO::Sample(void	*args){	// started upon re
 			NODE->send(_this,s2,N::PRIMARY);
 		}*/
 		Thread::Sleep(_this->sampling_period);
-	}
-
-	thread_ret_val(0);
+    }
 }
 
 void	SampleIO::initialize(uint64	reference_time,uint64	sampling_period){

@@ -79,6 +79,7 @@
 #include	"integration.h"
 #include	<Core/module_node.h>
 //#include	"../Replicode/r_exec/opcodes.h"
+#include <functional>
 
 #define	N		module::Node
 #define	NODE	module::Node::Get()
@@ -98,7 +99,7 @@ public	Module<U>{
 //	As a general rule, objects are sent to the rMems flat, i.e. they reference objects by their OIDs, instead of using pointers.
 MODULE_CLASS_BEGIN(SampleIO,ThreadedModule<SampleIO>)
 private:
-	static	thread_ret thread_function_call	Sample(void	*args);
+    static	void Sample(void	*args);
 
 	void	initialize(uint64_t	reference_time,uint64_t	sampling_period);
 	void	finalize();		//	kills the thread.

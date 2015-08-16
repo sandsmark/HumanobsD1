@@ -74,7 +74,7 @@
  */
 
 #include "r_mem_module.h"
-
+#include <r_comp/class_register.h>
 
 LOAD_MODULE(RMem)
 
@@ -93,18 +93,24 @@ void	RMem::decompile(r_comp::Decompiler	&decompiler,r_comp::Image	*image,uint64	
 
 int32	RMem::initialize(){
 
+    if (!image) {
+        image = new r_comp::Image;
+    }
+    if (!metadata) {
+        metadata = new r_comp::Metadata;
+    }
 	std::string	error;
-	if(!r_exec::Compile(source_code_path.c_str(),error)){
+    if(!r_exec::Compile(source_code_path.c_str(),error, image, metadata)){
 
 		std::cerr<<" <- "<<error<<std::endl;
 		return	1;
 	}else{
 
-		decompiler.init(&r_exec::Metadata);
+        decompiler.init(metadata);
 
 		mem=new	DMem(this);
 
-		r_exec::Seed.get_objects(mem,ram_objects);
+        image->get_objects(mem,ram_objects);
 
 		mem->init(	base_period,
 					reduction_core_count,
@@ -124,7 +130,8 @@ int32	RMem::initialize(){
 					debug,
 					ntf_mk_res,
 					goal_pred_success_res,
-					probe_level);
+                    probe_level,
+                    trace_levels);
 
 		uint32	stdin_oid;
 		std::string	stdin_symbol("stdin");
@@ -133,7 +140,7 @@ int32	RMem::initialize(){
 		uint32	self_oid;
 		std::string	self_symbol("self");
 		UNORDERED_MAP<uint32,std::string>::const_iterator	n;
-		for(n=r_exec::Seed.object_names.symbols.begin();n!=r_exec::Seed.object_names.symbols.end();++n){
+        for(n=image->object_names.symbols.begin();n!=image->object_names.symbols.end();++n){
 
 			if(n->second==stdin_symbol)
 				stdin_oid=n->first;
@@ -157,7 +164,7 @@ void	RMem::finalize(){
 
 void	RMem::send_ontology_map(){
 
-	uint16	ont_opcode=r_exec::GetOpcode("ont");
+    uint16	ont_opcode=r_comp::ClassRegister::GetOpcode("ont");
 	UNORDERED_MAP<r_code::Code	*,std::string>	entities;
 	for(uint16	i=0;i<ram_objects.size();++i){
 
@@ -165,7 +172,7 @@ void	RMem::send_ontology_map(){
 		if(	opcode==r_exec::Opcodes::Ent	||
 			opcode==ont_opcode){
 
-			entities[ram_objects[i]]=r_exec::GetAxiomName(i);
+            entities[ram_objects[i]]=metadata->getObjectName(i);
 			mem->add_entity_map_entry(ram_objects[i]);
 		}
 	}
