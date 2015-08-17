@@ -89,7 +89,6 @@ inline uint64_t _Now()
 
 void Init(const std::vector<int32_t> &numbers, const std::vector<std::string> &strings)
 {
-    core::Time::Init(1000);
     srand(_Now());
 
     if (!image) {

@@ -74,15 +74,15 @@
  */
 
 #include "sample_io_module.h"
-
+#include <thread>
+#include <chrono>
 //#include "../Replicode/r_code/image.h"
 
 
 LOAD_MODULE(SampleIO)
 
-void SampleIO::Sample(void *args)  // started upon reception of the ontology map; send samples in sync with the sampling period.
+void SampleIO::Sample(SampleIO *_this)  // started upon reception of the ontology map; send samples in sync with the sampling period.
 {
-    SampleIO *_this = (SampleIO *)args;
     float delta = 0.1;
     std::string object_name = "position";
     uint32_t position_OID = _this->getOID(object_name);
@@ -92,10 +92,10 @@ void SampleIO::Sample(void *args)  // started upon reception of the ontology map
     uint32_t hand_OID = _this->getOID(object_name);
     uint64_t now = Time::Get();
     uint64_t delta_t = (now - _this->reference_time) / 1000;
-    Thread::Sleep(delta_t); // sync with the sampling period.
+    std::this_thread::sleep_for(std::chrono::milliseconds(delta_t)); // sync with the sampling period.
 
 //bool once=true;
-    while (1) {
+    while (_this->running) {
 // Send an update of the positions of 2 entities.
         for (uint32_t i = 0; i < 67; ++i) {
             Sample_Vec3 *s0 = new Sample_Vec3();
@@ -125,7 +125,7 @@ void SampleIO::Sample(void *args)  // started upon reception of the ontology map
          s2->value=16;
          NODE->send(_this,s2,N::PRIMARY);
          }*/
-        Thread::Sleep(_this->sampling_period);
+        std::this_thread::sleep_for(std::chrono::milliseconds(_this->sampling_period));
     }
 }
 
@@ -133,11 +133,13 @@ void SampleIO::initialize(uint64_t reference_time, uint64_t sampling_period)
 {
     this->reference_time = reference_time;
     this->sampling_period = sampling_period / 1000; // ms.
+    this->running = true;
+    this->sample_thread = std::thread(Sample, this);
 }
 
 void SampleIO::finalize()
 {
-    Thread::TerminateAndWait(this);
+    this->running = false;
 }
 
 void SampleIO::register_ontology_member(std::string &name, uint32_t OID)

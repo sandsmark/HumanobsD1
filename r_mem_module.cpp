@@ -87,7 +87,7 @@ void RMem::decompile(r_comp::Decompiler &decompiler, r_comp::Image *image, uint6
 //uint32_t object_count=image->code_segment.objects.size();
     std::cout << "... done\n";
     std::cout << "\n\nDECOMPILATION\n\n" << decompiled_code.str() << std::endl;
-    std::cout << "Image taken at: " << Time::ToString_year(image->timestamp) << std::endl << std::endl;
+    //std::cout << "Image taken at: " << Time::ToString_year(image->timestamp) << std::endl << std::endl;
     std::cout << object_count << " objects\n";
 }
 
