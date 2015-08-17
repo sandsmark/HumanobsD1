@@ -84,137 +84,162 @@
 #define NODE module::Node::Get()
 #define OUTPUT NODE->trace(N::APPLICATION)
 
-MODULE_CLASS_BEGIN(Loom_module,Module<Loom_module>)
+MODULE_CLASS_BEGIN(Loom_module, Module<Loom_module>)
 public:
- SharedLibrary *lib;
- 
- typedef void (*OutputToDevices)(_Payload *p);
- OutputToDevices output_to_devices;
+SharedLibrary *lib;
 
- typedef void (*SetModule)( Loom_module *iModule );
- SetModule set_module;
+typedef void (*OutputToDevices)(_Payload *p);
+OutputToDevices output_to_devices;
 
- std::string device_hub_path;
+typedef void (*SetModule)(Loom_module *iModule);
+SetModule set_module;
 
- void loadParameters(const std::vector<word32> &numbers,const std::vector<std::string> &strings){
- device_hub_path=strings[0];
- }
+std::string device_hub_path;
 
- void start(){
- output_to_devices=NULL;
- lib=SharedLibrary::New(device_hub_path.c_str());
- if(lib)
- {
- output_to_devices = lib->getFunction<OutputToDevices>( "ProcessPayload" );
- set_module        = lib->getFunction<SetModule>( "SetModule" );
- }
- }
- void stop(){
- NODE->send(this,new StopMem(),N::PRIMARY);
- if(lib)
- delete lib;
- }
- template<class T> Decision decide(T *p){return WAIT;}
- template<class T> void react(T *p){}
+void loadParameters(const std::vector<word32> &numbers, const std::vector<std::string> &strings)
+{
+    device_hub_path = strings[0];
+}
 
- void react(SystemReady *p){
- OUTPUT<<"Loom "<<"got SysReady"<<std::endl;
+void start()
+{
+    output_to_devices = NULL;
+    lib = SharedLibrary::New(device_hub_path.c_str());
 
- if ( set_module )
- set_module( this );
+    if (lib) {
+        output_to_devices = lib->getFunction<OutputToDevices>("ProcessPayload");
+        set_module        = lib->getFunction<SetModule>("SetModule");
+    }
+}
+void stop()
+{
+    NODE->send(this, new StopMem(), N::PRIMARY);
 
- if(output_to_devices)
- output_to_devices(p);
+    if (lib) {
+        delete lib;
+    }
+}
+template<class T> Decision decide(T *p)
+{
+    return WAIT;
+}
+template<class T> void react(T *p) {}
 
- uint16_t vId = StartMem::CID();
- NODE->send(this,new StartMem(),N::PRIMARY);
+void react(SystemReady *p)
+{
+    OUTPUT << "Loom " << "got SysReady" << std::endl;
 
- // for testing.
- //Sleep(1000);
- //NODE->send(this,new StopMem(),N::PRIMARY);
- }
+    if (set_module) {
+        set_module(this);
+    }
 
- // rMem -> devices -> Loom.
- /*
- void (*mem_ready)(_Payload *);
- void (*set_ontology_count)(_Payload *);
- void (*set_ontology_member)(_Payload *);
- void (*speak)(_Payload *);
- void (*move_hand)(_Payload *);
- void (*grab_hand)(_Payload *);
- void (*release_hand)(_Payload *);
- void (*point_at)(_Payload *);
- void (*look_at)(_Payload *);
- */
- void react(MemReady *p){
- 
- if(output_to_devices)
- output_to_devices(p);
- }
- void react(OntologyCount *p){
- //OUTPUT<<"got ontology count: "<<p->count<<std::endl;
- if(output_to_devices)
- output_to_devices(p);
- }
- void react(OntologyDef *p){
- //OUTPUT<<"got ontology member: "<<p->name<<std::endl;
- if(output_to_devices)
- output_to_devices(p);
- }
- void react(Speak *p){
- OUTPUT<<"RMem says: "<<p->word<<std::endl;
+    if (output_to_devices) {
+        output_to_devices(p);
+    }
 
- if(output_to_devices)
- output_to_devices(p);
- }
- void react(MoveTo *p){
- 
- if(output_to_devices)
- output_to_devices(p);
- }
- void react(PointAt *p){
- 
- if(output_to_devices)
- output_to_devices(p);
- }
- void react(Grab *p){
- 
- if(output_to_devices)
- output_to_devices(p);
- }
- void react(Release *p){
- 
- if(output_to_devices)
- output_to_devices(p);
- }
- void react(LookAt *p){
- 
- if(output_to_devices)
- output_to_devices(p);
- }
- void react(Sample_Vec3 *p){
+    uint16_t vId = StartMem::CID();
+    NODE->send(this, new StartMem(), N::PRIMARY);
+// for testing.
+//Sleep(1000);
+//NODE->send(this,new StopMem(),N::PRIMARY);
+}
 
- if(output_to_devices)
- output_to_devices(p);
- }
+// rMem -> devices -> Loom.
+/*
+void (*mem_ready)(_Payload *);
+void (*set_ontology_count)(_Payload *);
+void (*set_ontology_member)(_Payload *);
+void (*speak)(_Payload *);
+void (*move_hand)(_Payload *);
+void (*grab_hand)(_Payload *);
+void (*release_hand)(_Payload *);
+void (*point_at)(_Payload *);
+void (*look_at)(_Payload *);
+*/
+void react(MemReady *p)
+{
+    if (output_to_devices) {
+        output_to_devices(p);
+    }
+}
+void react(OntologyCount *p)
+{
+//OUTPUT<<"got ontology count: "<<p->count<<std::endl;
+    if (output_to_devices) {
+        output_to_devices(p);
+    }
+}
+void react(OntologyDef *p)
+{
+//OUTPUT<<"got ontology member: "<<p->name<<std::endl;
+    if (output_to_devices) {
+        output_to_devices(p);
+    }
+}
+void react(Speak *p)
+{
+    OUTPUT << "RMem says: " << p->word << std::endl;
 
- void react(Bones *p){
+    if (output_to_devices) {
+        output_to_devices(p);
+    }
+}
+void react(MoveTo *p)
+{
+    if (output_to_devices) {
+        output_to_devices(p);
+    }
+}
+void react(PointAt *p)
+{
+    if (output_to_devices) {
+        output_to_devices(p);
+    }
+}
+void react(Grab *p)
+{
+    if (output_to_devices) {
+        output_to_devices(p);
+    }
+}
+void react(Release *p)
+{
+    if (output_to_devices) {
+        output_to_devices(p);
+    }
+}
+void react(LookAt *p)
+{
+    if (output_to_devices) {
+        output_to_devices(p);
+    }
+}
+void react(Sample_Vec3 *p)
+{
+    if (output_to_devices) {
+        output_to_devices(p);
+    }
+}
 
- if(output_to_devices)
- output_to_devices(p);
- }
+void react(Bones *p)
+{
+    if (output_to_devices) {
+        output_to_devices(p);
+    }
+}
 
- void react(Sample_String255 *sample){
- int a = 0;
- }
+void react(Sample_String255 *sample)
+{
+    int a = 0;
+}
 
- void on_heard( const char *iText )
- {
- Sample_String255 *vText = new Sample_String255;
-        memset(vText->value, 0, 255);
-        strncpy( vText->value, iText, 254 );
- NODE->send( this, vText, N::PRIMARY );
- }
+void on_heard(const char *iText)
+{
+    Sample_String255 *vText = new Sample_String255;
+    memset(vText->value, 0, 255);
+    strncpy(vText->value, iText, 254);
+    NODE->send(this, vText, N::PRIMARY);
+}
 
 MODULE_CLASS_END(Loom_module)
 

@@ -82,8 +82,8 @@
 #include <Core/application.h>
 
 
-extern "C"{
-void dll_export Init(const std::vector<word32> &numbers,const std::vector<std::string> &strings);
+extern "C" {
+    void dll_export Init(const std::vector<word32> &numbers, const std::vector<std::string> &strings);
 }
 
 

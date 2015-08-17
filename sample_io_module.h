@@ -87,8 +87,9 @@
 
 
 template<class U> class ThreadedModule:
-public Thread,
-public Module<U>{
+    public Thread,
+    public Module<U>
+{
 };
 
 // Demonstrates how to interface an I/O module to rMems.
@@ -97,55 +98,64 @@ public Module<U>{
 // Notice that entities have a resilience: if the module does not send them repeatedly, they will expire in the rMems,
 // meaning that they will be considered not exisitng anymore.
 // As a general rule, objects are sent to the rMems flat, i.e. they reference objects by their OIDs, instead of using pointers.
-MODULE_CLASS_BEGIN(SampleIO,ThreadedModule<SampleIO>)
+MODULE_CLASS_BEGIN(SampleIO, ThreadedModule<SampleIO>)
 private:
-    static void Sample(void *args);
+static void Sample(void *args);
 
- void initialize(uint64_t reference_time,uint64_t sampling_period);
- void finalize(); // kills the thread.
+void initialize(uint64_t reference_time, uint64_t sampling_period);
+void finalize(); // kills the thread.
 
- UNORDERED_MAP<std::string,uint32_t> entity_map; // stores the OIDs assigned by the module to the objects it controls.
- // also stores the OIDs assigned by the rMem to ontology members.
- void register_ontology_member(std::string&name,uint32_t OID);
- uint32_t getOID(std::string &name); // returns an ontology member's OID.
+UNORDERED_MAP<std::string, uint32_t> entity_map; // stores the OIDs assigned by the module to the objects it controls.
+// also stores the OIDs assigned by the rMem to ontology members.
+void register_ontology_member(std::string &name, uint32_t OID);
+uint32_t getOID(std::string &name); // returns an ontology member's OID.
 
- uint64_t reference_time;
- uint64_t sampling_period;
- uint32_t ontology_count;
+uint64_t reference_time;
+uint64_t sampling_period;
+uint32_t ontology_count;
 public:
- void start(){
- OUTPUT<<"SampleIO "<<"started"<<std::endl;
- }
- void stop(){
- OUTPUT<<"SampleIO "<<"stopped"<<std::endl;
- }
- template<class T> Decision decide(T *p){
- return WAIT;
- }
- template<class T> void react(T *p){
- OUTPUT<<"SampleIO "<<"got message"<<std::endl;
- }
- void react(SystemReady *p){
- OUTPUT<<"SampleIO "<<"got SysReady"<<std::endl;
- NODE->send(this,new StartMem(),N::PRIMARY);
- }
- void react(MemReady *p){
- OUTPUT<<"SampleIO "<<"got MemReady"<<std::endl;
- initialize(p->starting_time,p->sampling_period);
- Thread::start(Sample);
- }
- void react(OntologyCount *p){
- OUTPUT<<"got ontology count: "<<p->count<<std::endl;
- ontology_count=p->count;
- }
- void react(OntologyDef *p){
- OUTPUT<<"got ontology member: "<<p->name<<std::endl;
- std::string name=p->name;
- register_ontology_member(name,p->OID);
- }
- void react(Speak *p){
- OUTPUT<<"RMem says: "<<p->word<<std::endl;
- }
+void start()
+{
+    OUTPUT << "SampleIO " << "started" << std::endl;
+}
+void stop()
+{
+    OUTPUT << "SampleIO " << "stopped" << std::endl;
+}
+template<class T> Decision decide(T *p)
+{
+    return WAIT;
+}
+template<class T> void react(T *p)
+{
+    OUTPUT << "SampleIO " << "got message" << std::endl;
+}
+void react(SystemReady *p)
+{
+    OUTPUT << "SampleIO " << "got SysReady" << std::endl;
+    NODE->send(this, new StartMem(), N::PRIMARY);
+}
+void react(MemReady *p)
+{
+    OUTPUT << "SampleIO " << "got MemReady" << std::endl;
+    initialize(p->starting_time, p->sampling_period);
+    Thread::start(Sample);
+}
+void react(OntologyCount *p)
+{
+    OUTPUT << "got ontology count: " << p->count << std::endl;
+    ontology_count = p->count;
+}
+void react(OntologyDef *p)
+{
+    OUTPUT << "got ontology member: " << p->name << std::endl;
+    std::string name = p->name;
+    register_ontology_member(name, p->OID);
+}
+void react(Speak *p)
+{
+    OUTPUT << "RMem says: " << p->word << std::endl;
+}
 MODULE_CLASS_END(SampleIO)
 
 

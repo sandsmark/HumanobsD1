@@ -82,22 +82,27 @@ r_comp::Image *image = nullptr;
 
 using namespace r_code;
 
-inline uint64 _Now(){ return module::Node::Get()->time(); } // have the rMem synchronized with all modules in the system.
+inline uint64 _Now()
+{
+    return module::Node::Get()->time();    // have the rMem synchronized with all modules in the system.
+}
 
-void Init(const std::vector<word32> &numbers,const std::vector<std::string> &strings){
-
- core::Time::Init(1000);
-
- srand(_Now());
+void Init(const std::vector<word32> &numbers, const std::vector<std::string> &strings)
+{
+    core::Time::Init(1000);
+    srand(_Now());
 
     if (!image) {
         image = new r_comp::Image;
     }
+
     if (!metadata) {
         metadata = new r_comp::Metadata;
     }
-    if(!r_exec::Init(strings[0].c_str(),_Now,strings[1].c_str(), image, metadata))
- return;
 
- std::cout<<"integration library loaded"<<std::endl;
+    if (!r_exec::Init(strings[0].c_str(), _Now, strings[1].c_str(), image, metadata)) {
+        return;
+    }
+
+    std::cout << "integration library loaded" << std::endl;
 }
