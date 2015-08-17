@@ -82,12 +82,12 @@ r_comp::Image *image = nullptr;
 
 using namespace r_code;
 
-inline uint64 _Now()
+inline uint64_t _Now()
 {
     return module::Node::Get()->time();    // have the rMem synchronized with all modules in the system.
 }
 
-void Init(const std::vector<word32> &numbers, const std::vector<std::string> &strings)
+void Init(const std::vector<int32_t> &numbers, const std::vector<std::string> &strings)
 {
     core::Time::Init(1000);
     srand(_Now());

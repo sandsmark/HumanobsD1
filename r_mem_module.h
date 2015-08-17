@@ -132,7 +132,7 @@ void decompile(r_comp::Decompiler &decompiler, r_comp::Image *image, uint64_t ti
 
 void send_ontology_map();
 public:
-void loadParameters(const std::vector<word32> &numbers, const std::vector<std::string> &strings)
+void loadParameters(const std::vector<int32_t> &numbers, const std::vector<std::string> &strings)
 {
     source_code_path = strings[0];
     base_period = numbers[0];

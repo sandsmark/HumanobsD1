@@ -86,80 +86,80 @@ DMem::DMem(mBrane::sdk::module::_Module *m): r_exec::Mem<r_exec::LObject, r_exec
 {
 }
 
-void DMem::eject(View *view, uint16 nodeID)
+void DMem::eject(View *view, uint16_t nodeID)
 {
 }
 
 void DMem::eject(Code *command)
 {
-    uint16 function = (command->code(CMD_FUNCTION).atom >> 8) & 0x000000FF;
+    uint16_t function = (command->code(CMD_FUNCTION).atom >> 8) & 0x000000FF;
 
     if (function == r_comp::ClassRegister::GetOpcode("speak")) {
         Speak *speak = new Speak();
-        uint16 args_set_index = command->code(CMD_ARGS).asIndex();
-        uint16 word_index = args_set_index + 1;
+        uint16_t args_set_index = command->code(CMD_ARGS).asIndex();
+        uint16_t word_index = args_set_index + 1;
         std::string w = r_code::Utils::GetString<Code>(command, word_index);
         memcpy(speak->word, w.c_str(), w.length());
-        uint16 deadline_index = args_set_index + 2;
+        uint16_t deadline_index = args_set_index + 2;
         speak->deadline = Utils::GetTimestamp<Code>(command, deadline_index);
         NODE->send(module, speak, N::PRIMARY);
     } else if (function == r_comp::ClassRegister::GetOpcode("move_hand")) {
         MoveTo *move_to = new MoveTo();
-        uint16 args_set_index = command->code(CMD_ARGS).asIndex();
-        uint16 hand_index = args_set_index + 1;
+        uint16_t args_set_index = command->code(CMD_ARGS).asIndex();
+        uint16_t hand_index = args_set_index + 1;
         move_to->OID = command->get_reference(command->code(hand_index).asIndex())->get_oid();
-        uint16 target_position_index = command->code(args_set_index + 2).asIndex();
+        uint16_t target_position_index = command->code(args_set_index + 2).asIndex();
         move_to->target_position[0] = command->code(target_position_index + 1).asFloat();
         move_to->target_position[1] = command->code(target_position_index + 2).asFloat();
         move_to->target_position[2] = command->code(target_position_index + 3).asFloat();
-        uint16 deadline_index = args_set_index + 3;
+        uint16_t deadline_index = args_set_index + 3;
         move_to->deadline = Utils::GetTimestamp<Code>(command, deadline_index);
         NODE->send(module, move_to, N::PRIMARY);
     } else if (function == r_comp::ClassRegister::GetOpcode("grab_hand")) {
         Grab *grab_hand = new Grab();
-        uint16 args_set_index = command->code(CMD_ARGS).asIndex();
-        uint16 hand_index = args_set_index + 1;
+        uint16_t args_set_index = command->code(CMD_ARGS).asIndex();
+        uint16_t hand_index = args_set_index + 1;
         grab_hand->OID = command->get_reference(command->code(hand_index).asIndex())->get_oid();
-        uint16 deadline_index = args_set_index + 2;
+        uint16_t deadline_index = args_set_index + 2;
         grab_hand->deadline = Utils::GetTimestamp<Code>(command, deadline_index);
         NODE->send(module, grab_hand, N::PRIMARY);
     } else if (function == r_comp::ClassRegister::GetOpcode("release_hand")) {
         Release *release_hand = new Release();
-        uint16 args_set_index = command->code(CMD_ARGS).asIndex();
-        uint16 hand_index = args_set_index + 1;
+        uint16_t args_set_index = command->code(CMD_ARGS).asIndex();
+        uint16_t hand_index = args_set_index + 1;
         release_hand->OID = command->get_reference(command->code(hand_index).asIndex())->get_oid();
-        uint16 deadline_index = args_set_index + 2;
+        uint16_t deadline_index = args_set_index + 2;
         release_hand->deadline = Utils::GetTimestamp<Code>(command, deadline_index);
         NODE->send(module, release_hand, N::PRIMARY);
     } else if (function == r_comp::ClassRegister::GetOpcode("point_at")) {
         PointAt *point_at = new PointAt();
-        uint16 args_set_index = command->code(CMD_ARGS).asIndex();
-        uint16 hand_index = args_set_index + 1;
+        uint16_t args_set_index = command->code(CMD_ARGS).asIndex();
+        uint16_t hand_index = args_set_index + 1;
         point_at->OID = command->get_reference(command->code(hand_index).asIndex())->get_oid();
-        uint16 target_position_index = command->code(args_set_index + 2).asIndex();
+        uint16_t target_position_index = command->code(args_set_index + 2).asIndex();
         point_at->target_position[0] = command->code(target_position_index + 1).asFloat();
         point_at->target_position[1] = command->code(target_position_index + 2).asFloat();
         point_at->target_position[2] = command->code(target_position_index + 3).asFloat();
-        uint16 deadline_index = args_set_index + 3;
+        uint16_t deadline_index = args_set_index + 3;
         point_at->deadline = Utils::GetTimestamp<Code>(command, deadline_index);
         NODE->send(module, point_at, N::PRIMARY);
     } else if (function == r_comp::ClassRegister::GetOpcode("look_at")) {
         LookAt *look_at = new LookAt();
-        uint16 args_set_index = command->code(CMD_ARGS).asIndex();
-        uint16 target_position_index = command->code(args_set_index + 1).asIndex();
+        uint16_t args_set_index = command->code(CMD_ARGS).asIndex();
+        uint16_t target_position_index = command->code(args_set_index + 1).asIndex();
         look_at->target_position[0] = command->code(target_position_index + 1).asFloat();
         look_at->target_position[1] = command->code(target_position_index + 2).asFloat();
         look_at->target_position[2] = command->code(target_position_index + 3).asFloat();
-        uint16 deadline_index = args_set_index + 2;
+        uint16_t deadline_index = args_set_index + 2;
         look_at->deadline = Utils::GetTimestamp<Code>(command, deadline_index);
         NODE->send(module, look_at, N::PRIMARY);
     }
 }
 
-void DMem::inject(Code *object, uint8 nodeID) // this is application dependent WRT fact->after and fact->before.
+void DMem::inject(Code *object, uint8_t nodeID) // this is application dependent WRT fact->after and fact->before.
 {
 //object->trace();
-    uint64 now = r_exec::Now();
+    uint64_t now = r_exec::Now();
 // Build a fact.
     Code *fact = new r_exec::Fact(object, now, now, 1, 1); // caveat: use [now, now+sampling_period[ for enabling learning by CTPX.
 // Build a default view for the fact.
@@ -167,14 +167,14 @@ void DMem::inject(Code *object, uint8 nodeID) // this is application dependent W
 // Inject the view.
     view->set_object(fact);
     ((_Mem *)this)->inject(view);
-    uint64 _n = r_exec::Now();
+    uint64_t _n = r_exec::Now();
 //std::cout<<"time spent for injection: "<<_n-now<<std::endl;
 //std::cout<<"views in stdin: "<<((r_exec::Group *)get_stdin())->other_views.size()<<std::endl;
 }
 
-Code *DMem::get_object(uint32 OID, uint8 NID)
+Code *DMem::get_object(uint32_t OID, uint8_t NID)
 {
-    UNORDERED_MAP<uint32, P<Code>>::const_iterator o = entity_map.find(OID);
+    UNORDERED_MAP<uint32_t, P<Code>>::const_iterator o = entity_map.find(OID);
 
     if (o != entity_map.end()) {
         return o->second;
@@ -193,12 +193,12 @@ void DMem::add_entity_map_entry(Code *entity)
     entity_map[entity->get_oid()] = entity;
 }
 
-r_exec::View *DMem::build_view(uint64 time, uint8 nodeID) const // this is application dependent WRT view->sync.
+r_exec::View *DMem::build_view(uint64_t time, uint8_t nodeID) const // this is application dependent WRT view->sync.
 {
     r_exec::View *view = new r_exec::View();
-    const uint32 arity = VIEW_ARITY; // reminder: opcode not included in the arity.
-    uint16 write_index = 0;
-    uint16 extent_index = arity + 1;
+    const uint32_t arity = VIEW_ARITY; // reminder: opcode not included in the arity.
+    uint16_t write_index = 0;
+    uint16_t extent_index = arity + 1;
     view->code(VIEW_OPCODE) = Atom::SSet(r_exec::View::ViewOpcode, arity);
     view->code(VIEW_SYNC) = Atom::Float(View::SYNC_ONCE); // sync on front.
     view->code(VIEW_IJT) = Atom::IPointer(extent_index); // iptr to injection time.

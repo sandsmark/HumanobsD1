@@ -79,19 +79,19 @@
 LOAD_MODULE(RMem)
 
 
-void RMem::decompile(r_comp::Decompiler &decompiler, r_comp::Image *image, uint64 time_offset)
+void RMem::decompile(r_comp::Decompiler &decompiler, r_comp::Image *image, uint64_t time_offset)
 {
     std::cout << "\ndecompiling ...\n";
     std::ostringstream decompiled_code;
-    uint32 object_count = decompiler.decompile(image, &decompiled_code, time_offset, true);
-//uint32 object_count=image->code_segment.objects.size();
+    uint32_t object_count = decompiler.decompile(image, &decompiled_code, time_offset, true);
+//uint32_t object_count=image->code_segment.objects.size();
     std::cout << "... done\n";
     std::cout << "\n\nDECOMPILATION\n\n" << decompiled_code.str() << std::endl;
     std::cout << "Image taken at: " << Time::ToString_year(image->timestamp) << std::endl << std::endl;
     std::cout << object_count << " objects\n";
 }
 
-int32 RMem::initialize()
+int32_t RMem::initialize()
 {
     if (!image) {
         image = new r_comp::Image;
@@ -130,13 +130,13 @@ int32 RMem::initialize()
                   goal_pred_success_res,
                   probe_level,
                   trace_levels);
-        uint32 stdin_oid;
+        uint32_t stdin_oid;
         std::string stdin_symbol("stdin");
-        uint32 stdout_oid;
+        uint32_t stdout_oid;
         std::string stdout_symbol("stdout");
-        uint32 self_oid;
+        uint32_t self_oid;
         std::string self_symbol("self");
-        UNORDERED_MAP<uint32, std::string>::const_iterator n;
+        UNORDERED_MAP<uint32_t, std::string>::const_iterator n;
 
         for (n = image->object_names.symbols.begin(); n != image->object_names.symbols.end(); ++n) {
             if (n->second == stdin_symbol) {
@@ -163,11 +163,11 @@ void RMem::finalize()
 
 void RMem::send_ontology_map()
 {
-    uint16 ont_opcode = r_comp::ClassRegister::GetOpcode("ont");
+    uint16_t ont_opcode = r_comp::ClassRegister::GetOpcode("ont");
     UNORDERED_MAP<r_code::Code *, std::string> entities;
 
-    for (uint16 i = 0; i < ram_objects.size(); ++i) {
-        uint16 opcode = ram_objects[i]->code(0).asOpcode();
+    for (uint16_t i = 0; i < ram_objects.size(); ++i) {
+        uint16_t opcode = ram_objects[i]->code(0).asOpcode();
 
         if (opcode == r_exec::Opcodes::Ent ||
                 opcode == ont_opcode) {

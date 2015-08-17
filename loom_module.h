@@ -96,7 +96,7 @@ SetModule set_module;
 
 std::string device_hub_path;
 
-void loadParameters(const std::vector<word32> &numbers, const std::vector<std::string> &strings)
+void loadParameters(const std::vector<int32_t> &numbers, const std::vector<std::string> &strings)
 {
     device_hub_path = strings[0];
 }
