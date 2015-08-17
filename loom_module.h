@@ -73,148 +73,148 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef	loom_module_h
+#ifndef loom_module_h
 #define loom_module_h
 
-#include	"integration.h"
-#include	<Core/module_node.h>
+#include "integration.h"
+#include <Core/module_node.h>
 
 
-#define	N		module::Node
-#define	NODE	module::Node::Get()
-#define	OUTPUT	NODE->trace(N::APPLICATION)
+#define N module::Node
+#define NODE module::Node::Get()
+#define OUTPUT NODE->trace(N::APPLICATION)
 
 MODULE_CLASS_BEGIN(Loom_module,Module<Loom_module>)
 public:
-	SharedLibrary	*lib;
-	
-	typedef	void	(*OutputToDevices)(_Payload	*p);
-	OutputToDevices	output_to_devices;
+ SharedLibrary *lib;
+ 
+ typedef void (*OutputToDevices)(_Payload *p);
+ OutputToDevices output_to_devices;
 
-	typedef	void	(*SetModule)( Loom_module *iModule );
-	SetModule	set_module;
+ typedef void (*SetModule)( Loom_module *iModule );
+ SetModule set_module;
 
-	std::string	device_hub_path;
+ std::string device_hub_path;
 
-	void	loadParameters(const	std::vector<word32>	&numbers,const	std::vector<std::string>	&strings){
-		device_hub_path=strings[0];
-	}
+ void loadParameters(const std::vector<word32> &numbers,const std::vector<std::string> &strings){
+ device_hub_path=strings[0];
+ }
 
-	void	start(){
-		output_to_devices=NULL;
-		lib=SharedLibrary::New(device_hub_path.c_str());
-		if(lib)
-		{
-			output_to_devices = lib->getFunction<OutputToDevices>( "ProcessPayload" );
-			set_module        = lib->getFunction<SetModule>( "SetModule" );
-		}
-	}
-	void	stop(){
-		NODE->send(this,new	StopMem(),N::PRIMARY);
-		if(lib)
-			delete	lib;
-	}
-	template<class	T>	Decision	decide(T	*p){return	WAIT;}
-	template<class	T>	void	react(T	*p){}
+ void start(){
+ output_to_devices=NULL;
+ lib=SharedLibrary::New(device_hub_path.c_str());
+ if(lib)
+ {
+ output_to_devices = lib->getFunction<OutputToDevices>( "ProcessPayload" );
+ set_module        = lib->getFunction<SetModule>( "SetModule" );
+ }
+ }
+ void stop(){
+ NODE->send(this,new StopMem(),N::PRIMARY);
+ if(lib)
+ delete lib;
+ }
+ template<class T> Decision decide(T *p){return WAIT;}
+ template<class T> void react(T *p){}
 
-	void	react(SystemReady	*p){
-		OUTPUT<<"Loom "<<"got SysReady"<<std::endl;
+ void react(SystemReady *p){
+ OUTPUT<<"Loom "<<"got SysReady"<<std::endl;
 
-		if ( set_module )
-			set_module( this );
+ if ( set_module )
+ set_module( this );
 
-		if(output_to_devices)
-			output_to_devices(p);
+ if(output_to_devices)
+ output_to_devices(p);
 
-		uint16_t vId = StartMem::CID();
-		NODE->send(this,new	StartMem(),N::PRIMARY);
+ uint16_t vId = StartMem::CID();
+ NODE->send(this,new StartMem(),N::PRIMARY);
 
-		//	for testing.
-		//Sleep(1000);
-		//NODE->send(this,new	StopMem(),N::PRIMARY);
-	}
+ // for testing.
+ //Sleep(1000);
+ //NODE->send(this,new StopMem(),N::PRIMARY);
+ }
 
-	//	rMem -> devices -> Loom.
-	/*
-	void	(*mem_ready)(_Payload	*);
-	void	(*set_ontology_count)(_Payload	*);
-	void	(*set_ontology_member)(_Payload	*);
-	void	(*speak)(_Payload	*);
-	void	(*move_hand)(_Payload	*);
-	void	(*grab_hand)(_Payload	*);
-	void	(*release_hand)(_Payload	*);
-	void	(*point_at)(_Payload	*);
-	void	(*look_at)(_Payload	*);
-	*/
-	void	react(MemReady	*p){
-		
-		if(output_to_devices)
-			output_to_devices(p);
-	}
-	void	react(OntologyCount	*p){
-		//OUTPUT<<"got ontology count: "<<p->count<<std::endl;
-		if(output_to_devices)
-			output_to_devices(p);
-	}
-	void	react(OntologyDef	*p){
-		//OUTPUT<<"got ontology member: "<<p->name<<std::endl;
-		if(output_to_devices)
-			output_to_devices(p);
-	}
-	void	react(Speak	*p){
-		OUTPUT<<"RMem says: "<<p->word<<std::endl;
+ // rMem -> devices -> Loom.
+ /*
+ void (*mem_ready)(_Payload *);
+ void (*set_ontology_count)(_Payload *);
+ void (*set_ontology_member)(_Payload *);
+ void (*speak)(_Payload *);
+ void (*move_hand)(_Payload *);
+ void (*grab_hand)(_Payload *);
+ void (*release_hand)(_Payload *);
+ void (*point_at)(_Payload *);
+ void (*look_at)(_Payload *);
+ */
+ void react(MemReady *p){
+ 
+ if(output_to_devices)
+ output_to_devices(p);
+ }
+ void react(OntologyCount *p){
+ //OUTPUT<<"got ontology count: "<<p->count<<std::endl;
+ if(output_to_devices)
+ output_to_devices(p);
+ }
+ void react(OntologyDef *p){
+ //OUTPUT<<"got ontology member: "<<p->name<<std::endl;
+ if(output_to_devices)
+ output_to_devices(p);
+ }
+ void react(Speak *p){
+ OUTPUT<<"RMem says: "<<p->word<<std::endl;
 
-		if(output_to_devices)
-			output_to_devices(p);
-	}
-	void	react(MoveTo	*p){
-		
-		if(output_to_devices)
-			output_to_devices(p);
-	}
-	void	react(PointAt	*p){
-		
-		if(output_to_devices)
-			output_to_devices(p);
-	}
-	void	react(Grab	*p){
-		
-		if(output_to_devices)
-			output_to_devices(p);
-	}
-	void	react(Release	*p){
-		
-		if(output_to_devices)
-			output_to_devices(p);
-	}
-	void	react(LookAt	*p){
-		
-		if(output_to_devices)
-			output_to_devices(p);
-	}
-	void	react(Sample_Vec3	*p){
+ if(output_to_devices)
+ output_to_devices(p);
+ }
+ void react(MoveTo *p){
+ 
+ if(output_to_devices)
+ output_to_devices(p);
+ }
+ void react(PointAt *p){
+ 
+ if(output_to_devices)
+ output_to_devices(p);
+ }
+ void react(Grab *p){
+ 
+ if(output_to_devices)
+ output_to_devices(p);
+ }
+ void react(Release *p){
+ 
+ if(output_to_devices)
+ output_to_devices(p);
+ }
+ void react(LookAt *p){
+ 
+ if(output_to_devices)
+ output_to_devices(p);
+ }
+ void react(Sample_Vec3 *p){
 
-		if(output_to_devices)
-			output_to_devices(p);
-	}
+ if(output_to_devices)
+ output_to_devices(p);
+ }
 
-	void	react(Bones	*p){
+ void react(Bones *p){
 
-		if(output_to_devices)
-			output_to_devices(p);
-	}
+ if(output_to_devices)
+ output_to_devices(p);
+ }
 
-	void	react(Sample_String255	*sample){
-		int a = 0;
-	}
+ void react(Sample_String255 *sample){
+ int a = 0;
+ }
 
-	void on_heard( const char *iText )
-	{
-		Sample_String255 *vText = new Sample_String255;
+ void on_heard( const char *iText )
+ {
+ Sample_String255 *vText = new Sample_String255;
         memset(vText->value, 0, 255);
         strncpy( vText->value, iText, 254 );
-		NODE->send( this, vText, N::PRIMARY );
-	}
+ NODE->send( this, vText, N::PRIMARY );
+ }
 
 MODULE_CLASS_END(Loom_module)
 

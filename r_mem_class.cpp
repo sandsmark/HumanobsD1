@@ -73,77 +73,77 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include	"r_mem_class.h"
+#include "r_mem_class.h"
 
-#include	<r_exec/object.h>
-#include	<r_exec/init.h>
+#include <r_exec/object.h>
+#include <r_exec/init.h>
 #include <r_comp/class_register.h>
 
 
-Code	*Sample_Vec3::get_code(DMem *m){
+Code *Sample_Vec3::get_code(DMem *m){
 
-	Code	*object=new	r_exec::LObject(m);
-    object->code(0)=Atom::Marker(r_comp::ClassRegister::GetOpcode("mk.val"),4);	//	Caveat: arity does not include the opcode.
-	object->code(1)=Atom::RPointer(0);
-	object->code(2)=Atom::RPointer(1);
-	object->code(3)=Atom::IPointer(5);	//	points to the vector.
-	object->code(4)=Atom::Float(1);		//	psln_thr.
-    object->code(5)=Atom::Object(r_comp::ClassRegister::GetOpcode("vec3"),3);	//	Caveat: arity does not include the opcode.
-	object->code(6)=Atom::Float(this->value[0]);
-	object->code(7)=Atom::Float(this->value[1]);
-	object->code(8)=Atom::Float(this->value[2]);
+ Code *object=new r_exec::LObject(m);
+    object->code(0)=Atom::Marker(r_comp::ClassRegister::GetOpcode("mk.val"),4); // Caveat: arity does not include the opcode.
+ object->code(1)=Atom::RPointer(0);
+ object->code(2)=Atom::RPointer(1);
+ object->code(3)=Atom::IPointer(5); // points to the vector.
+ object->code(4)=Atom::Float(1); // psln_thr.
+    object->code(5)=Atom::Object(r_comp::ClassRegister::GetOpcode("vec3"),3); // Caveat: arity does not include the opcode.
+ object->code(6)=Atom::Float(this->value[0]);
+ object->code(7)=Atom::Float(this->value[1]);
+ object->code(8)=Atom::Float(this->value[2]);
 
-	object->set_reference(0,m->get_object(this->object,this->senderNodeID()));
-	object->set_reference(1,m->get_object(this->attribute,this->senderNodeID()));
+ object->set_reference(0,m->get_object(this->object,this->senderNodeID()));
+ object->set_reference(1,m->get_object(this->attribute,this->senderNodeID()));
 
-	return	object;
+ return object;
 }
 
-Code	*Sample_uint32::get_code(DMem *m){
+Code *Sample_uint32::get_code(DMem *m){
 
-	Code	*object=new	r_exec::LObject(m);
-    object->code(0)=Atom::Marker(r_comp::ClassRegister::GetOpcode("mk.val"),4);	//	Caveat: arity does not include the opcode.
-	object->code(1)=Atom::RPointer(0);
-	object->code(2)=Atom::RPointer(1);
-	object->code(3)=Atom::RPointer(2);
-	object->code(4)=Atom::Float(1);		//	psln_thr.
+ Code *object=new r_exec::LObject(m);
+    object->code(0)=Atom::Marker(r_comp::ClassRegister::GetOpcode("mk.val"),4); // Caveat: arity does not include the opcode.
+ object->code(1)=Atom::RPointer(0);
+ object->code(2)=Atom::RPointer(1);
+ object->code(3)=Atom::RPointer(2);
+ object->code(4)=Atom::Float(1); // psln_thr.
 
-	object->set_reference(0,m->get_object(this->object,this->senderNodeID()));
-	object->set_reference(1,m->get_object(this->attribute,this->senderNodeID()));
-	object->set_reference(2,m->get_object(this->value,this->senderNodeID()));
+ object->set_reference(0,m->get_object(this->object,this->senderNodeID()));
+ object->set_reference(1,m->get_object(this->attribute,this->senderNodeID()));
+ object->set_reference(2,m->get_object(this->value,this->senderNodeID()));
 
-	return	object;
+ return object;
 }
 
-Code	*Sample_float::get_code(DMem *m){
+Code *Sample_float::get_code(DMem *m){
 
-	Code	*object=new	r_exec::LObject(m);
-    object->code(0)=Atom::Marker(r_comp::ClassRegister::GetOpcode("mk.val"),4);	//	Caveat: arity does not include the opcode.
-	object->code(1)=Atom::RPointer(0);
-	object->code(2)=Atom::RPointer(1);
-	object->code(3)=Atom::Float(this->value);
-	object->code(4)=Atom::Float(1);		//	psln_thr.
+ Code *object=new r_exec::LObject(m);
+    object->code(0)=Atom::Marker(r_comp::ClassRegister::GetOpcode("mk.val"),4); // Caveat: arity does not include the opcode.
+ object->code(1)=Atom::RPointer(0);
+ object->code(2)=Atom::RPointer(1);
+ object->code(3)=Atom::Float(this->value);
+ object->code(4)=Atom::Float(1); // psln_thr.
 
-	object->set_reference(0,m->get_object(this->object,this->senderNodeID()));
-	object->set_reference(1,m->get_object(this->attribute,this->senderNodeID()));
+ object->set_reference(0,m->get_object(this->object,this->senderNodeID()));
+ object->set_reference(1,m->get_object(this->attribute,this->senderNodeID()));
 
-	return	object;
+ return object;
 }
 
-Code	*Sample_String255::get_code(DMem *m){
+Code *Sample_String255::get_code(DMem *m){
 
-	Code	*object=new	r_exec::LObject(m);
-    object->code(0)=Atom::Marker(r_comp::ClassRegister::GetOpcode("mk.val"),4);	//	Caveat: arity does not include the opcode.
-	object->code(1)=Atom::RPointer(0);
-	object->code(2)=Atom::RPointer(1);
-	object->code(3)=Atom::IPointer(5);	//	points to the string.
-	object->code(4)=Atom::Float(1);		//	psln_thr.
-	std::string	text=this->value;
-	r_code::Utils::SetString<Code>(object,3,text);
-	//object->trace();
-	
-	object->set_reference(0,m->get_object(this->object,this->senderNodeID()));
-	object->set_reference(1,m->get_object(this->attribute,this->senderNodeID()));
+ Code *object=new r_exec::LObject(m);
+    object->code(0)=Atom::Marker(r_comp::ClassRegister::GetOpcode("mk.val"),4); // Caveat: arity does not include the opcode.
+ object->code(1)=Atom::RPointer(0);
+ object->code(2)=Atom::RPointer(1);
+ object->code(3)=Atom::IPointer(5); // points to the string.
+ object->code(4)=Atom::Float(1); // psln_thr.
+ std::string text=this->value;
+ r_code::Utils::SetString<Code>(object,3,text);
+ //object->trace();
+ 
+ object->set_reference(0,m->get_object(this->object,this->senderNodeID()));
+ object->set_reference(1,m->get_object(this->attribute,this->senderNodeID()));
 
-	return	object;
+ return object;
 }

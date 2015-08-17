@@ -73,17 +73,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef	integration_h
-#define	integration_h
+#ifndef integration_h
+#define integration_h
 
-#include	"r_mem_class.h"
-#define		APPLICATION_CLASSES	"r_mem_class_def.h"
+#include "r_mem_class.h"
+#define APPLICATION_CLASSES "r_mem_class_def.h"
 
-#include	<Core/application.h>
+#include <Core/application.h>
 
 
-extern	"C"{
-void	dll_export	Init(const	std::vector<word32>	&numbers,const	std::vector<std::string>	&strings);
+extern "C"{
+void dll_export Init(const std::vector<word32> &numbers,const std::vector<std::string> &strings);
 }
 
 

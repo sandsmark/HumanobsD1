@@ -73,22 +73,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include	"integration.h"
-#include	<r_exec/init.h>
+#include "integration.h"
+#include <r_exec/init.h>
 #include <r_comp/segments.h>
 
 r_comp::Metadata *metadata = nullptr;
 r_comp::Image *image = nullptr;
 
-using	namespace	r_code;
+using namespace r_code;
 
-inline	uint64	_Now(){	return	module::Node::Get()->time();	}	//	have the rMem synchronized with all modules in the system.
+inline uint64 _Now(){ return module::Node::Get()->time(); } // have the rMem synchronized with all modules in the system.
 
-void	Init(const	std::vector<word32>	&numbers,const	std::vector<std::string>	&strings){
+void Init(const std::vector<word32> &numbers,const std::vector<std::string> &strings){
 
-	core::Time::Init(1000);
+ core::Time::Init(1000);
 
-	srand(_Now());
+ srand(_Now());
 
     if (!image) {
         image = new r_comp::Image;
@@ -97,7 +97,7 @@ void	Init(const	std::vector<word32>	&numbers,const	std::vector<std::string>	&str
         metadata = new r_comp::Metadata;
     }
     if(!r_exec::Init(strings[0].c_str(),_Now,strings[1].c_str(), image, metadata))
-		return;
+ return;
 
-	std::cout<<"integration library loaded"<<std::endl;
+ std::cout<<"integration library loaded"<<std::endl;
 }
